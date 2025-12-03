@@ -20,6 +20,7 @@ export interface Cliente {
   encargado: string;
   descuento1?: string | number; // Puede ser string si viene de input o number si es procesado
   descuento2?: string | number;
+  descripcion:string
   // Añade aquí cualquier otra propiedad relevante de Cliente
 }
 

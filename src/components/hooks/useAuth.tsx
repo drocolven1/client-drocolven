@@ -8,20 +8,22 @@ import {
 } from "react";
 import { jwtDecode } from "jwt-decode";
 import { NavigateFunction } from "react-router-dom";
-// import axios from 'axios'; // ❌ Eliminado axios
+import { useClienteStore } from "../carritoCliente/store/cliente.storage";
 
-// Tipos de TypeScript
 export type Usuario = {
   id: string;
   name: string;
   email: string;
   role: "user";
-  rif?: string; // Agregado para clientes
+  rif?: string;
+  descripcion: string;
+  descuento1: string;
+  descuento2: string;
 };
 
 type AuthContextType = {
   token: string | null;
-  login: (token: string, isClient?: boolean) => void; // Nota: Actualizado para reflejar el parámetro opcional
+  login: (token: string, isClient?: boolean) => void;
   logout: (navigate?: NavigateFunction) => void;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -30,7 +32,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: any) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<Usuario | null>(null);
@@ -38,38 +40,36 @@ export function AuthProvider({ children }: any) {
   const validateToken = useCallback((token: string): boolean => {
     try {
       const { exp } = jwtDecode<{ exp: number }>(token);
-      // El token es válido si el tiempo actual es menor que el tiempo de expiración
       return Date.now() < exp * 1000;
     } catch (error) {
-      console.log("Error al decodificar el token:", error);
       return false;
     }
   }, []);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    // Buscar primero cliente, luego usuario admin
-    const storedClient = localStorage.getItem("cliente");
-    const storedUser = localStorage.getItem("usuario");
-    let userObj: Usuario | null = null;
-    if (storedToken && (storedClient || storedUser)) {
-      if (validateToken(storedToken)) {
-        setToken(storedToken);
-        if (storedClient) {
-          userObj = JSON.parse(storedClient);
-        } else if (storedUser) {
-          userObj = JSON.parse(storedUser);
-        }
-        setUser(userObj);
+    const zustandState = useClienteStore.getState();
+    const storedClienteFromZustand = zustandState.clienteSeleccionado;
 
-        // NOTA: Con fetch, debes pasar el header 'Authorization'
-        // en CADA solicitud. No hay una configuración global como en axios.
-        // Revisa todas tus funciones de API para agregar:
-        // headers: { 'Authorization': `Bearer ${storedToken}` }
+    if (storedToken && validateToken(storedToken)) {
+      setToken(storedToken);
+
+      if (storedClienteFromZustand) {
+        // Usar datos del cliente persistido por Zustand si existe
+        setUser(storedClienteFromZustand as any); // as any
       } else {
-        logout();
+        // Intentar usar la decodificación del token si no hay cliente detallado
+        try {
+          const decodedToken = jwtDecode<Usuario>(storedToken);
+          setUser(decodedToken);
+        } catch (error) {
+          logout();
+        }
       }
+    } else if (storedToken) {
+      logout(); // Token expirado
     }
+
     setIsLoading(false);
   }, [validateToken]);
 
@@ -78,17 +78,20 @@ export function AuthProvider({ children }: any) {
       const decodedToken = jwtDecode<Usuario>(token);
       setToken(token);
       setUser(decodedToken);
-      if (isClient) {
-        localStorage.setItem("cliente", JSON.stringify(decodedToken));
-      } else {
-        localStorage.setItem("usuario", JSON.stringify(decodedToken));
-      }
+      console.log(decodedToken);
       localStorage.setItem("token", token);
+
       if (decodedToken.email) {
         localStorage.setItem("cliente_email", decodedToken.email);
       }
 
-      // NOTA: Se eliminó axios.defaults.headers.common['Authorization']
+      // Llamar a Zustand para iniciar la persistencia del cliente
+      if (isClient && decodedToken.rif) {
+        // Asumimos que la información del token es suficiente para ClienteDetalle
+        useClienteStore
+          .getState()
+          .setClienteSeleccionado(decodedToken as any); //as clientDetalle 
+      }
     } catch (error) {
       console.error("Error al decodificar el token:", error);
     }
@@ -97,12 +100,11 @@ export function AuthProvider({ children }: any) {
   const logout = (navigate?: NavigateFunction) => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem("usuario");
-    localStorage.removeItem("cliente");
     localStorage.removeItem("token");
     localStorage.removeItem("cliente_email");
 
-    // NOTA: Se eliminó delete axios.defaults.headers.common['Authorization'];
+    // Limpiar el estado del cliente en Zustand
+    useClienteStore.getState().limpiarCliente();
 
     if (navigate) {
       navigate("/login", { replace: true });

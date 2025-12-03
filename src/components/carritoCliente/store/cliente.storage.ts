@@ -7,6 +7,7 @@ export interface ClienteResumen {
   email: string;
   rif: string;
   encargado: string;
+  descripcion: string;
 }
 
 export interface ClienteDetalle extends ClienteResumen {

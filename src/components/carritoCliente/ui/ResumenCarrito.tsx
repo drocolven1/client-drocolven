@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Cliente, TransaccionPayload } from "../types/types";
+import { Cliente } from "../types/types";
 import { useEnviarTransaccion } from "../hooks/useEnviarTransaccion";
 import { useCarritoStore } from "../store/carrito.storage";
 
@@ -87,7 +87,7 @@ export const ResumenCarrito = ({
 
     let usuarioActual;
     try {
-      const data = localStorage.getItem("admin_data");
+      const data = localStorage.getItem("cliente-storage");
       usuarioActual = data ? JSON.parse(data) : null;
       if (!usuarioActual) throw new Error("Usuario no encontrado");
     } catch {
@@ -103,7 +103,7 @@ export const ResumenCarrito = ({
       // 1) Crear pedido
       // --------------------
       const payloadPedido = {
-        cliente: cliente?.encargado ?? "Cliente no seleccionado",
+        cliente: cliente?.descripcion ?? "Cliente no seleccionado",
         rif: cliente?.rif ?? "RIF no seleccionado",
         observacion,
         subtotal: Number(subtotal.toFixed(2)),
@@ -145,25 +145,25 @@ export const ResumenCarrito = ({
       // --------------------
       // 2) Crear transacción
       // --------------------
-      const mov: TransaccionPayload = {
-        tipo_movimiento: "pedido",
-        usuario: usuarioActual.usuario,
-        observaciones: `Descargo por pedido N° ${pedido.pedido_id}. ${observacion}`,
-        documento_origen: pedido.pedido_id.toString(),
-        productos: carrito.map((p) => ({
-          producto_codigo: p.codigo,
-          cantidad: p.cantidad_pedida,
-        })),
-      };
+      // const mov: TransaccionPayload = {
+      //   tipo_movimiento: "pedido",
+      //   usuario: usuarioActual.email,
+      //   observaciones: `Descargo por pedido N° ${pedido.pedido_id}. ${observacion}`,
+      //   documento_origen: pedido.pedido_id.toString(),
+      //   productos: carrito.map((p) => ({
+      //     producto_codigo: p.codigo,
+      //     cantidad: p.cantidad_pedida,
+      //   })),
+      // };
 
-      await enviarTransaccion(mov);
+      // await enviarTransaccion(mov);
 
       alert("Pedido registrado correctamente.");
       onTotalizar?.();
 
       limpiarCarrito();
       setConfirmModalVisible(false);
-      navigate("/admin");
+      navigate("/");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Error desconocido.";
       setError(msg);

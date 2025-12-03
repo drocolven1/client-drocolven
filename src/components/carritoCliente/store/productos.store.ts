@@ -1,3 +1,5 @@
+// src/components/carritoCliente/store/productos.store.ts
+
 import { create } from "zustand";
 
 export interface Producto {
@@ -31,39 +33,69 @@ interface Convenio {
   productos: Record<string, number>;
 }
 
+// Suponemos que la respuesta paginada del backend tiene esta forma
+interface InventarioPaginatedResponse {
+    inventario_maestro: ItemInventario[];
+    total_pages: number;
+    current_page: number;
+    // Otros campos que tu backend de FastAPI pudiera devolver
+}
+
+// 🚀 Nuevos campos en el estado para el Infinite Scroll
 interface ProductosState {
   productos: Producto[];
   loading: boolean;
   error: string | null;
+  currentPage: number; // Página actual cargada (0 al inicio)
+  hasMore: boolean;     // Indica si hay más páginas por cargar (true al inicio)
 
-  fetchProductos: (preciosmp: boolean) => Promise<void>;
+  // 🎯 La acción ahora acepta página y límite
+  fetchProductos: (page: number, limit: number, preciosmp: boolean) => Promise<void>;
+  resetProductos: () => void; // Para reiniciar el estado
 }
 
-export const useProductosStore = create<ProductosState>((set: any) => ({
+// 🎯 El nuevo endpoint de paginación
+const INVENTARIO_PAGINADO_URL = `${import.meta.env.VITE_API_URL}/inventario/paginated/`;
+const CONVENIOS_URL = `${import.meta.env.VITE_API_URL}/convenios/`;
+
+
+export const useProductosStore = create<ProductosState>((set: any, get: any) => ({
   productos: [],
   loading: false,
   error: null,
+  currentPage: 0, 
+  hasMore: true,
 
-  fetchProductos: async (preciosmp: boolean = false) => {
+  resetProductos: () => set({ 
+      productos: [], 
+      currentPage: 0, 
+      hasMore: true,
+      loading: false,
+      error: null
+  }),
+
+  fetchProductos: async (page: number, limit: number, preciosmp: boolean = false) => {
+    // Guardias: Si ya estamos cargando o no hay más páginas (a menos que sea la Pág 1)
+    if (get().loading || (!get().hasMore && page !== 1)) return;
+    
     try {
       set({ loading: true, error: null });
 
-      const baseURL = import.meta.env.VITE_API_URL;
-      const inventarioURL = `${baseURL}/inventario_maestro`;
-      const conveniosURL = `${baseURL}/convenios`;
+      // 🎯 Modificación CRÍTICA: Llamar a la API con parámetros de paginación
+      const inventarioURL = `${INVENTARIO_PAGINADO_URL}?page=${page}&limit=${limit}`;
 
       const [inventarioRes, conveniosRes] = await Promise.all([
         fetch(inventarioURL),
-        preciosmp ? fetch(conveniosURL) : Promise.resolve(null),
+        preciosmp ? fetch(CONVENIOS_URL) : Promise.resolve(null),
       ]);
 
-      if (!inventarioRes.ok) throw new Error("Error cargando inventario");
+      if (!inventarioRes.ok) throw new Error("Error cargando inventario paginado");
 
-      const inventarioJson = await inventarioRes.json();
-      const inventario: ItemInventario[] =
-        inventarioJson.inventario_maestro ?? [];
+      const inventarioPaginatedJson: InventarioPaginatedResponse = await inventarioRes.json();
+      const inventario: ItemInventario[] = inventarioPaginatedJson.inventario_maestro ?? [];
+      const totalPages = inventarioPaginatedJson.total_pages;
 
-      // Procesar convenios
+      // Procesar convenios (sin cambios)
       let preciosConvenio: Record<string, number> = {};
       if (conveniosRes && conveniosRes.ok) {
         const convenios: Convenio[] = await conveniosRes.json();
@@ -75,6 +107,7 @@ export const useProductosStore = create<ProductosState>((set: any) => ({
           );
       }
 
+      // Mapeo y limpieza de datos (sin cambios)
       const formateados: Producto[] = inventario
         .filter((i) => i.existencia > 0)
         .map((i) => ({
@@ -89,11 +122,19 @@ export const useProductosStore = create<ProductosState>((set: any) => ({
           descuento3: Number(i.descuento3) || 0,
           descuento4: Number(i.descuento4) || 0,
         }));
+        
+      // 🚀 CONCATENACIÓN DE RESULTADOS: Mantiene los productos existentes y añade los nuevos
+      const currentProducts = get().productos;
 
-      set({ productos: formateados });
+      set({ 
+          productos: [...currentProducts, ...formateados], 
+          currentPage: page,
+          hasMore: page < totalPages, 
+      });
+      
     } catch (error) {
       console.error(error);
-      set({ productos: [], error: "Error cargando productos" });
+      set({ error: "Error cargando productos", hasMore: false }); 
     } finally {
       set({ loading: false });
     }
