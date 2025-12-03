@@ -26,11 +26,10 @@ export function CarritoClientePage() {
   // Cliente
   // -------------------------
   const clienteSeleccionado = useClienteStore((s) => s.clienteSeleccionado);
-
   // -------------------------
   // Productos (ya no hay paginación)
   // -------------------------
-  const { productos, loading, error} = useProductos();
+  const { productos, loading, error } = useProductos();
 
   // -------------------------
   // Carrito
@@ -58,6 +57,16 @@ export function CarritoClientePage() {
   // Modal carrito
   // -------------------------
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  // -------------------------
+  // Función de Logout 🚀
+  // -------------------------
+  const handleLogout = () => {
+    // 1. Borrar todo el localStorage
+    localStorage.clear();
+    // 2. Recargar la ventana
+    window.location.reload();
+  };
 
   // -------------------------
   // Estados tempranos
@@ -88,7 +97,19 @@ export function CarritoClientePage() {
   // -------------------------
   return (
     <div className="page-container flex flex-col gap-4 p-4 bg-gray-50 min-h-screen">
-
+      
+      {/* Botón de Logout/Cerrar Sesión 🚪 */}
+      <div className="flex justify-end mb-4">
+        <Button 
+          color="danger" 
+          variant="flat" 
+          size="sm"
+          onPress={handleLogout}
+        >
+          Cerrar Sesión
+        </Button>
+      </div>
+      
       {/* Búsqueda */}
       <Buscador busqueda={busqueda} setBusqueda={setBusqueda} />
 
@@ -128,7 +149,6 @@ export function CarritoClientePage() {
       >
         Ver Carrito ({carrito.length})
       </Button>
-
     </div>
   );
 }
