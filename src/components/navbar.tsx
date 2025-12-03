@@ -16,11 +16,6 @@ import clsx from "clsx";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  HeartFilledIcon,
-  SearchIcon,
-} from "@/components/icons";
-import { Logo } from "@/components/icons";
 
 export const Navbar = () => {
   const searchInput = (
@@ -37,9 +32,6 @@ export const Navbar = () => {
       }
       labelPlacement="outside"
       placeholder="Search..."
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
       type="search"
     />
   );
@@ -53,7 +45,6 @@ export const Navbar = () => {
             color="foreground"
             href="/"
           >
-            <Logo />
             <p className="font-bold text-inherit">ACME</p>
           </Link>
         </NavbarBrand>
@@ -85,7 +76,6 @@ export const Navbar = () => {
             isExternal
             as={Link}
             className="text-sm font-normal text-default-600 bg-default-100"
-            startContent={<HeartFilledIcon className="text-danger" />}
             variant="flat"
           >
             Sponsor
