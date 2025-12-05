@@ -80,9 +80,7 @@ export function CarritoClientePage() {
 
   if (loading)
     return (
-      <div className="p-4 text-center text-gray-600">
-        Cargando productos...
-      </div>
+      <div className="p-4 text-center text-gray-600">Cargando productos...</div>
     );
 
   if (error)
@@ -97,19 +95,13 @@ export function CarritoClientePage() {
   // -------------------------
   return (
     <div className="page-container flex flex-col gap-4 p-4 bg-gray-50 min-h-screen">
-      
       {/* Botón de Logout/Cerrar Sesión 🚪 */}
       <div className="flex justify-end mb-4">
-        <Button 
-          color="danger" 
-          variant="flat" 
-          size="sm"
-          onPress={handleLogout}
-        >
+        <Button color="danger" variant="flat" size="sm" onPress={handleLogout}>
           Cerrar Sesión
         </Button>
       </div>
-      
+
       {/* Búsqueda */}
       <Buscador busqueda={busqueda} setBusqueda={setBusqueda} />
 
@@ -122,21 +114,15 @@ export function CarritoClientePage() {
       />
 
       {/* Modal Carrito */}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} size="full" onOpenChange={onOpenChange}>
         <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Resumen del Carrito</ModalHeader>
-              <ModalBody>
-                <ResumenCarrito cliente={clienteSeleccionado} />
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cerrar
-                </Button>
-              </ModalFooter>
-            </>
-          )}
+          <ModalHeader>
+            <p>Resumen del Carrito</p>
+          </ModalHeader>
+          <ModalBody className="overflow-auto">
+            <ResumenCarrito cliente={clienteSeleccionado} />
+          </ModalBody>
+          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
 
