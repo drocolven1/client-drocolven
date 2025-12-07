@@ -88,13 +88,13 @@ const useModal = (initialVisible = false) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isVisible) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  }, [isVisible]);
+  // useEffect(() => {
+  //   if (isVisible) {
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     document.body.style.overflow = "";
+  //   }
+  // }, [isVisible]);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -122,11 +122,7 @@ interface Props {
   onTotalizar?: () => void;
 }
 
-export const ResumenCarrito: React.FC<Props> = ({
-  cliente,
-  titulo = "RESUMEN DEL PEDIDO",
-  onTotalizar,
-}) => {
+export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
   const navigate = useNavigate();
 
   const carrito = useCarritoStore((s) => s.carrito);
@@ -188,7 +184,8 @@ export const ResumenCarrito: React.FC<Props> = ({
 
     // Descuentos cliente aplicados al total neto
     const totalNeto = total;
-    const totalCliente1 = totalNeto * (1 - (Number(cliente?.descuento1) ?? 0) / 100);
+    const totalCliente1 =
+      totalNeto * (1 - (Number(cliente?.descuento1) ?? 0) / 100);
     descuentoCliente1Total = totalNeto - totalCliente1;
 
     const totalCliente2 =
@@ -334,34 +331,17 @@ export const ResumenCarrito: React.FC<Props> = ({
   //--------------------------------------
 
   return (
-    <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl border border-white/50 w-full max-w-4xl mx-auto">
-      {/* Header Responsive */}
-      <div className="text-center pb-4 sm:pb-6 border-b border-gray-100">
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent tracking-tight">
-          {titulo}
-        </h1>
-      </div>
-
+    <div className="mx-auto">
       {/* Cliente Info Responsive */}
       {cliente && (
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 p-3 sm:p-4 rounded-xl sm:rounded-2xl mb-4 sm:mb-6">
-          <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 text-xs sm:text-sm">
-            <div className="flex items-center gap-2 flex-1">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-              <span className="font-bold text-blue-900 min-w-0 truncate">
-                Cliente:
-              </span>
-              <span className="font-semibold min-w-0 truncate">
-                {cliente.encargado || cliente.descripcion}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-blue-900">RIF:</span>
-              <span className="font-mono bg-blue-100 px-2 py-1 sm:px-3 sm:py-1 rounded-lg font-semibold text-xs sm:text-sm">
-                {cliente.rif}
-              </span>
-            </div>
-          </div>
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 p-1 sm:p-2 rounded-xl sm:rounded-2xl mb-2 sm:mb-4">
+          <span className="font-bold text-blue-900 min-w-0 truncate">
+            Cliente: {cliente.descripcion.toUpperCase()}
+          </span>
+          <span className="font-bold text-blue-900">RIF:</span>
+          <span className="font-mono bg-blue-100 px-2 py-1 sm:px-3 sm:py-1 rounded-lg font-semibold text-xs sm:text-sm">
+            {cliente.rif}
+          </span>
         </div>
       )}
 
@@ -487,7 +467,7 @@ export const ResumenCarrito: React.FC<Props> = ({
           <Button
             onClick={limpiarCarrito}
             disabled={carrito.length === 0}
-            className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold text-base sm:text-lg rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-red-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] flex items-center gap-2"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold text-base sm:text-lg rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl hover:from-red-600 hover:to-red-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] flex items-center gap-2"
           >
             <ShoppingBag className="w-5 h-5" />
             Limpiar Carrito
@@ -503,7 +483,6 @@ export const ResumenCarrito: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* Modal ULTRA-RESPONSIVE */}
       {isVisible && (
         <div
           ref={overlayRef}

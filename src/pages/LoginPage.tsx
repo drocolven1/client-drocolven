@@ -1,12 +1,13 @@
 import { useCliente } from "@/components/carritoCliente/hooks/useCliente";
 import { useAuth } from "@/components/hooks/useAuth";
+import { Button } from "@heroui/button";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, login } = useAuth();
-  const { seleccionarCliente} = useCliente();
+  const { seleccionarCliente } = useCliente();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +15,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (isAuthenticated) {
       // Si ya está autenticado, navega inmediatamente
-      navigate("/", { replace: true });
+      navigate("/home", { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
@@ -63,15 +64,30 @@ const LoginPage = () => {
       }
 
       // Opcional: Navegar a la página principal o protegida
-      navigate("/");
+      navigate("/home");
     } catch (err) {
       setError((err as Error).message || "Error al iniciar sesión");
       console.error("Error de inicio de sesión:", err);
     }
   };
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+    <div className="flex justify-center items-center min-h-screen gap-32">
+      <div className="fixed top-0 left-0 w-full h-14 border-b border-primary-200 flex items-center px-10 shadow-2xl">
+        <p className="text-2xl font-bold">Drocolven</p>
+      </div>
+      <div className="text-4xl max-w-2xl">
+        <p>Hola, Bienvenido a Drocolven tu drogueria de confianza</p>
+        <p>A continuacion inicia sesion para continuar.</p>
+        <p>
+          Si no posees un usuario para iniciar sesion puedes ponerte en{" "}
+          <Button className="m-4" color="primary">
+            Contacto
+          </Button>
+          con nosotros
+        </p>
+      </div>
+      <div className="bg-white p-8 rounded-lg shadow-lg w-96 shadow-neon-green">
         <h2 className="text-2xl font-bold text-center mb-6">Iniciar sesión</h2>
 
         {error && (

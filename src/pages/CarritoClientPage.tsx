@@ -20,6 +20,7 @@ import {
 import { Button } from "@heroui/button";
 
 import { filtrarPorMultiplesPalabrasAND } from "@/components/carritoCliente/utils/filter";
+import ClientLayout from "@/layouts/Client";
 
 export function CarritoClientePage() {
   // -------------------------
@@ -59,82 +60,92 @@ export function CarritoClientePage() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // -------------------------
-  // Función de Logout 🚀
-  // -------------------------
-  const handleLogout = () => {
-    // 1. Borrar todo el localStorage
-    localStorage.clear();
-    // 2. Recargar la ventana
-    window.location.reload();
-  };
-
-  // -------------------------
   // Estados tempranos
   // -------------------------
   if (!clienteSeleccionado)
     return (
-      <div className="p-4 text-center text-red-600">
-        Error: Cliente no cargado
-      </div>
+      <ClientLayout>
+        <div className="p-4 text-center text-red-600">
+          Error: Cliente no cargado
+        </div>
+      </ClientLayout>
     );
 
   if (loading)
     return (
-      <div className="p-4 text-center text-gray-600">Cargando productos...</div>
+      <ClientLayout>
+        <div className="p-4 text-center text-gray-600">
+          Cargando productos...
+        </div>
+      </ClientLayout>
     );
 
   if (error)
     return (
-      <div className="p-4 text-center text-red-600">
-        Error cargando productos: {error}
-      </div>
+      <ClientLayout>
+        <div className="p-4 text-center text-red-600">
+          Error cargando productos: {error}
+        </div>
+      </ClientLayout>
     );
 
   // -------------------------
   // Render principal
   // -------------------------
   return (
-    <div className="page-container flex flex-col gap-4 p-4 bg-gray-50 min-h-screen">
-      {/* Botón de Logout/Cerrar Sesión 🚪 */}
-      <div className="flex justify-end mb-4">
-        <Button color="danger" variant="flat" size="sm" onPress={handleLogout}>
-          Cerrar Sesión
+    <ClientLayout>
+      <div className="page-container flex flex-col gap-4 p-4 min-h-screen">
+        {/* Botón de Logout/Cerrar Sesión 🚪
+        <div className="flex justify-end mb-4">
+          <Button
+            color="danger"
+            variant="flat"
+            size="sm"
+            onPress={handleLogout}
+          >
+            Cerrar Sesión
+          </Button>
+        </div> */}
+
+        {/* Búsqueda */}
+        <Buscador busqueda={busqueda} setBusqueda={setBusqueda} />
+
+        {/* Lista de productos */}
+        <ProductList
+          productos={productosFiltrados}
+          descuentoCliente1={clienteSeleccionado.descuento1}
+          descuentoCliente2={clienteSeleccionado.descuento2}
+          loading={loading}
+        />
+
+        {/* Modal Carrito */}
+        <Modal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          backdrop="blur"
+          size="5xl"
+        >
+          <ModalContent className="h-[85%]">
+            <ModalHeader className="justify-center">
+              <p>Resumen del Carrito</p>
+            </ModalHeader>
+            <ModalBody className="overflow-y-auto">
+              <ResumenCarrito cliente={clienteSeleccionado} />
+            </ModalBody>
+            <ModalFooter></ModalFooter>
+          </ModalContent>
+        </Modal>
+
+        {/* Botón flotante */}
+        <Button
+          radius="full"
+          color="primary"
+          className="fixed bottom-6 right-6 shadow-2xl px-6 py-3 font-semibold text-lg hover:scale-[1.03]"
+          onPress={onOpen}
+        >
+          Ver Carrito ({carrito.length})
         </Button>
       </div>
-
-      {/* Búsqueda */}
-      <Buscador busqueda={busqueda} setBusqueda={setBusqueda} />
-
-      {/* Lista de productos */}
-      <ProductList
-        productos={productosFiltrados}
-        descuentoCliente1={clienteSeleccionado.descuento1}
-        descuentoCliente2={clienteSeleccionado.descuento2}
-        loading={loading}
-      />
-
-      {/* Modal Carrito */}
-      <Modal isOpen={isOpen} size="full" onOpenChange={onOpenChange}>
-        <ModalContent>
-          <ModalHeader>
-            <p>Resumen del Carrito</p>
-          </ModalHeader>
-          <ModalBody className="overflow-auto">
-            <ResumenCarrito cliente={clienteSeleccionado} />
-          </ModalBody>
-          <ModalFooter></ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      {/* Botón flotante */}
-      <Button
-        radius="full"
-        color="primary"
-        className="fixed bottom-6 right-6 shadow-2xl px-6 py-3 font-semibold text-lg hover:scale-[1.03]"
-        onPress={onOpen}
-      >
-        Ver Carrito ({carrito.length})
-      </Button>
-    </div>
+    </ClientLayout>
   );
 }

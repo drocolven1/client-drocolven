@@ -47,11 +47,11 @@ export const ProductList: React.FC<ProductListProps> = ({
   return (
     <div
       ref={containerRef}
-      className="w-full h-full bg-gray-100 rounded-xl overflow-y-auto max-h-[85vh]"
+      className="w-full h-full rounded-xl overflow-y-auto max-h-[85vh]"
     >
       {productos.slice(0, visibleCount).map((producto) => (
         <div key={producto.codigo} className="p-3">
-          <div className="w-full bg-white shadow-md rounded-2xl p-4 hover:shadow-lg transition">
+          <div className="w-full shadow-md rounded-2xl p-4 hover:shadow-lg transition bg-gray-50">
             <AdminProductItem
               producto={producto}
               descuentoCliente1={descuentoCliente1}

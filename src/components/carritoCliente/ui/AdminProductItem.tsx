@@ -76,7 +76,6 @@ export const AdminProductItem: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col md:flex-row gap-4 h-full">
-      
       {/* Imagen */}
       <div className="flex-shrink-0 flex items-center justify-center h-full w-full md:w-44 md:h-full">
         {imgLoading ? (

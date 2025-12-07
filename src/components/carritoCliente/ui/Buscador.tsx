@@ -6,7 +6,7 @@ interface BuscadorProps {
 }
 
 export const Buscador: React.FC<BuscadorProps> = ({ busqueda, setBusqueda }) => (
-    <div className="sticky top-0 z-10 p-1 bg-gray-50">
+    <div className="sticky top-0 z-10 p-1">
         <input
             type="text"
             placeholder="🔍 Buscar producto por descripción o código..."
