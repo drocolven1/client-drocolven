@@ -37,14 +37,10 @@ const LoginPage = () => {
       const data = await response.json();
       const token = data.access_token;
 
-      // 1. Guardar la sesión (token y usuario base)
       login(token, true);
 
-      // 2. Lógica Adicional: Cargar el detalle del cliente
-      const clienteRif = data.rif; // 👈 Asumiendo que la API devuelve el RIF en el body
-
+      const clienteRif = data.rif;
       if (clienteRif) {
-        // Llama a tu hook para obtener y guardar el detalle del cliente en Zustand
         await seleccionarCliente(clienteRif);
       } else {
         console.warn(
@@ -52,7 +48,6 @@ const LoginPage = () => {
         );
       }
 
-      // Opcional: Navegar a la página principal o protegida
       navigate("/home");
     } catch (err) {
       setError((err as Error).message || "Error al iniciar sesión");
@@ -61,89 +56,216 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen gap-32 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-      <div className="fixed top-0 left-0 w-full h-14 border-b border-primary-200 flex items-center px-10 shadow-2xl font-extrabold">
-        <p className="text-2xl font-bold">Drocolven</p>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* ✅ FONDO OSCURO CON PUNTOS VERDES */}
+      <div className="fixed inset-0 bg-gradient-to-br from-slate-950 via-gray-900 to-black">
+        {/* PUNTOS VERDES ANIMADOS */}
+        <div className="absolute inset-0">
+          {/* Capa 1 - Puntos grandes */}
+          <div
+            className="absolute top-20 left-20 w-4 h-4 bg-emerald-400 rounded-full opacity-60 animate-pulse"
+            style={{ animationDelay: "0s" }}
+          ></div>
+          <div
+            className="absolute top-40 right-32 w-3 h-3 bg-emerald-500 rounded-full opacity-50 animate-ping"
+            style={{ animationDelay: "1s" }}
+          ></div>
+          <div
+            className="absolute bottom-40 left-1/4 w-2 h-2 bg-teal-400 rounded-full opacity-70 animate-pulse"
+            style={{ animationDelay: "2s" }}
+          ></div>
+          <div
+            className="absolute bottom-20 right-20 w-5 h-5 bg-emerald-500 rounded-full opacity-40 animate-bounce"
+            style={{ animationDelay: "0.5s" }}
+          ></div>
+
+          {/* Capa 2 - Puntos medianos */}
+          <div
+            className="absolute top-1/2 left-10 w-2 h-2 bg-emerald-400 rounded-full opacity-50 animate-pulse"
+            style={{ animationDelay: "1.5s" }}
+          ></div>
+          <div
+            className="absolute top-60 right-1/3 w-3 h-3 bg-teal-500 rounded-full opacity-60 animate-ping"
+            style={{ animationDelay: "0.8s" }}
+          ></div>
+          <div
+            className="absolute bottom-1/3 left-2/3 w-1.5 h-1.5 bg-emerald-400 rounded-full opacity-70 animate-pulse"
+            style={{ animationDelay: "3s" }}
+          ></div>
+
+          {/* Capa 3 - Puntos pequeños */}
+          <div
+            className="absolute top-10 right-10 w-1.5 h-1.5 bg-emerald-300 rounded-full opacity-40 animate-ping"
+            style={{ animationDelay: "2.5s" }}
+          ></div>
+          <div
+            className="absolute top-80 left-1/2 w-2 h-2 bg-teal-400 rounded-full opacity-50 animate-bounce"
+            style={{ animationDelay: "1.2s" }}
+          ></div>
+          <div
+            className="absolute bottom-60 right-1/4 w-1 h-1 bg-emerald-500 rounded-full opacity-60 animate-pulse"
+            style={{ animationDelay: "4s" }}
+          ></div>
+        </div>
+
+        {/* Overlay sutil para contraste */}
+        <div className="absolute inset-0 bg-black/20"></div>
       </div>
 
-      {/* TEXTO DE BIENVENIDA MEJORADO */}
-      <div className="text-4xl max-w-2xl font-extrabold">
-        <p className="mb-4">
-          👋 ¡Hola! Bienvenido a Drocolven, tu droguería de confianza.
-        </p>
-        <p className="text-3xl font-semibold mb-6 text-gray-300">
-          Inicia sesión para acceder a tu carrito y catálogo exclusivo.
-        </p>
-        <p className="text-xl font-normal mt-10">
-          ¿Aún no tienes una cuenta de cliente?
-          <br />
-          <span className="font-semibold text-primary-300">
-            Ponte en contacto con nuestro equipo
-          </span>{" "}
-          para comenzar tu registro.
-          <Button className="m-4" color="primary">
-            Solicitar Acceso
-          </Button>
+      {/* NAVBAR */}
+      <div className="fixed top-0 left-0 w-full h-14 border-b border-emerald-500/30 backdrop-blur-xl bg-black/40 z-50 flex items-center px-6 sm:px-10 shadow-2xl">
+        <p className="text-2xl font-black bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent drop-shadow-lg">
+          Drocolven
         </p>
       </div>
 
-      {/* FORMULARIO DE INICIO DE SESIÓN */}
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96 shadow-neon-green">
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-900">
-          Acceso Clientes
-        </h2>
-
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-            <p className="font-semibold">Error al iniciar sesión:</p>
-            <p className="text-sm">{error}</p>
+      <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen gap-12 lg:gap-32 p-8 lg:p-16 pt-24 relative z-10">
+        {/* TEXTO DE BIENVENIDA */}
+        <div className="text-left lg:text-center max-w-2xl lg:max-w-3xl order-2 lg:order-1">
+          <h1 className="text-5xl lg:text-6xl font-black mb-8 leading-tight bg-gradient-to-r from-white to-emerald-300 bg-clip-text text-transparent drop-shadow-2xl">
+            Bienvenido a
+            <br />
+            <span className="from-emerald-400 to-teal-400">Drocolven</span>
+          </h1>
+          <p className="text-xl lg:text-2xl mb-8 text-slate-200 font-semibold drop-shadow-lg leading-relaxed">
+            Tu droguería de confianza con{" "}
+            <span className="text-emerald-300"> catálogo exclusivo</span>.
+          </p>
+          <div className="flex flex-col items-center text-lg lg:text-xl text-slate-300 space-y-4">
+            <p className="flex items-center gap-3">
+              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span>
+              Accede a tu carrito y ofertas especiales
+            </p>
+            <p>
+              ¿Nuevo cliente?{" "}
+              <span
+                className="font-bold text-emerald-300 underline"
+                onClick={() => {
+                  // Redirige y hace scroll automático
+                  window.location.href =
+                    "https://landingpage-drocolven.vercel.app/#contacto";
+                  // O con scroll suave después de cargar:
+                  // window.location.href = '/contacto#formulario-contacto';
+                }}
+              >
+                Contáctanos
+              </span>
+            </p>
           </div>
-        )}
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-semibold text-gray-700"
+        {/* FORMULARIO - GLASSMORPHISM */}
+        <div className="w-full max-w-md lg:max-w-lg order-1 lg:order-2 bg-white/5 backdrop-blur-2xl border border-emerald-400/30 rounded-3xl shadow-2xl shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all duration-500 p-8 lg:p-12">
+          <div className="text-center mb-10">
+            <div className="w-20 h-20 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl mx-auto mb-6 flex items-center justify-center shadow-2xl border-4 border-white/20 drop-shadow-2xl">
+              <svg
+                className="w-10 h-10 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-black text-white mb-2 drop-shadow-xl">
+              Acceso Clientes
+            </h2>
+            <p className="text-emerald-200 font-semibold text-lg">
+              Inicia sesión en tu cuenta
+            </p>
+          </div>
+
+          {error && (
+            <div className="bg-red-500/20 border border-red-400/50 backdrop-blur-xl text-red-100 px-6 py-4 rounded-2xl mb-6 shadow-xl shadow-red-500/30 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-transparent h-full w-2 left-0"></div>
+              <div className="relative z-10">
+                <p className="font-bold text-lg mb-1 flex items-center gap-2">
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Error de inicio de sesión
+                </p>
+                <p className="text-sm">{error}</p>
+              </div>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-bold text-slate-200 mb-3"
+              >
+                📧 Correo Electrónico
+              </label>
+              <input
+                type="email"
+                id="email"
+                placeholder="cliente@drocolven.com"
+                className="w-full p-4 border-2 border-white/30 bg-white/10 backdrop-blur-xl rounded-2xl text-white placeholder-slate-400 font-semibold text-lg focus:border-emerald-400 focus:outline-none focus:ring-4 focus:ring-emerald-500/40 transition-all duration-300 shadow-lg hover:shadow-emerald-500/20"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-bold text-slate-200 mb-3"
+              >
+                🔒 Contraseña
+              </label>
+              <input
+                type="password"
+                id="password"
+                placeholder="••••••••••••"
+                className="w-full p-4 border-2 border-white/30 bg-white/10 backdrop-blur-xl rounded-2xl text-white placeholder-slate-400 font-semibold text-lg focus:border-emerald-400 focus:outline-none focus:ring-4 focus:ring-emerald-500/40 transition-all duration-300 shadow-lg hover:shadow-emerald-500/20"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-5 px-8 text-xl font-black bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 active:scale-[0.98] rounded-3xl shadow-2xl shadow-emerald-500/50 hover:shadow-emerald-500/70 border border-emerald-400/50 backdrop-blur-xl transition-all duration-500 text-white uppercase tracking-wider"
             >
-              Correo electrónico (Usuario)
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="ejemplo@tuempresa.com" // Añadimos un placeholder
-              className="w-full p-2 mt-2 border border-gray-300 rounded-md text-gray-900" // Aseguramos color de texto
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+              🚀 Entrar a la Plataforma
+            </button>
+          </form>
 
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block text-sm font-semibold text-gray-700"
+          <div className="mt-8 pt-6 border-t border-white/20 text-center">
+            <p className="text-sm text-slate-300 mb-4">¿Nuevo en Drocolven?</p>
+            <Button
+              size="lg"
+              color="secondary"
+              onPress={() => {
+                // Redirige y hace scroll automático
+                window.location.href =
+                  "https://landingpage-drocolven.vercel.app/#contacto";
+                // O con scroll suave después de cargar:
+                // window.location.href = '/contacto#formulario-contacto';
+              }}
+              className="w-full bg-white/20 hover:bg-white/30 border-white/40 backdrop-blur-xl text-white font-bold py-3 rounded-2xl transition-all duration-300 shadow-xl hover:shadow-emerald-400/30"
             >
-              Contraseña
-            </label>
-            <input
-              type="password"
-              id="password"
-              placeholder="••••••••" // Añadimos un placeholder
-              className="w-full p-2 mt-2 border border-gray-300 rounded-md text-gray-900" // Aseguramos color de texto
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+              📞 Solicitar Acceso
+            </Button>
           </div>
-
-          <button
-            type="submit"
-            className="w-full py-3 text-white font-bold bg-green-600 hover:bg-green-700 rounded-md transition duration-150"
-          >
-            Entrar a la Plataforma
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );
