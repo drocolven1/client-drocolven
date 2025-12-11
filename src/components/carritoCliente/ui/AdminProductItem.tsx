@@ -1,5 +1,3 @@
-// src/components/AdminProductItem.tsx
-
 import React, { useState } from "react";
 import { CarritoProducto } from "../types/types";
 import { useCarritoStore } from "../store/carrito.storage";
@@ -40,9 +38,11 @@ export const AdminProductItem: React.FC<Props> = ({
 
   const calcularPrecioNeto = (): number => {
     const base = calcularPrecioBaseDLDE();
-    return base *
+    return (
+      base *
       (1 - safeNumber(descuentoCliente1) / 100) *
-      (1 - safeNumber(descuentoCliente2) / 100);
+      (1 - safeNumber(descuentoCliente2) / 100)
+    );
   };
 
   const precioBaseDLDE = calcularPrecioBaseDLDE();
@@ -75,30 +75,35 @@ export const AdminProductItem: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 h-full">
+    <div className="flex flex-col md:flex-row items-stretch gap-4 p-2 rounded-lg">
       {/* Imagen */}
-      <div className="flex-shrink-0 flex items-center justify-center h-full w-full md:w-44 md:h-full">
+      <div className="flex-shrink-0 w-full md:w-44 h-48 md:h-auto flex items-center justify-center bg-white rounded-lg overflow-hidden border">
         {imgLoading ? (
-          <div className="w-full h-24 md:w-44 md:h-44 animate-pulse bg-gray-200" />
+          <div className="w-full h-full bg-gray-200" />
         ) : imgUrl ? (
           <img
             src={imgUrl}
             alt={producto.descripcion}
-            className="max-h-40 md:max-h-full w-auto object-contain"
+            className="w-full h-full object-contain"
           />
         ) : (
-          <div className="text-xs text-gray-400 p-2 text-center">
-            No hay imagen
+          <div className="text-xs text-gray-500 p-2 text-center">
+            Sin imagen
           </div>
         )}
       </div>
 
       {/* Información y acciones */}
-      <div className="flex flex-col md:flex-row justify-between w-full">
+      <div className="flex-1 flex flex-row justify-between">
         <div>
-          <h3 className="text-lg text-gray-800 font-bold">{producto.descripcion}</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-2xl font-semibold text-gray-800">
+              {producto.descripcion}
+            </h3>
+            <span className="text-xl text-primary-600">{producto.fv}</span>
+          </div>
 
-          <div className="mt-2 flex flex-wrap gap-2 items-center text-sm text-gray-600">
+          <div className="mt-2 flex flex-wrap gap-2 items-center text-xl text-gray-700">
             <span>Precio base: ${safeNumber(producto.precio).toFixed(2)}</span>
             <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700">
               DL {safeNumber(producto.descuento1)}%
@@ -114,20 +119,20 @@ export const AdminProductItem: React.FC<Props> = ({
             </span>
           </div>
 
-          <div className="mt-3 flex items-center gap-4">
-            <div className="text-sm text-gray-500">
-              <div>
-                Base DL+DE: <span className="font-medium">${precioBaseDLDE.toFixed(2)}</span>
-              </div>
-              <div>
-                Neto: <span className="font-bold text-green-600">${precioNeto.toFixed(2)}</span>
-              </div>
-            </div>
+          <div className="mt-3 text-xl text-gray-700">
+            Base DL+DE:{" "}
+            <span className="font-medium">${precioBaseDLDE.toFixed(2)}</span>
+          </div>
+          <div className="text-3xl text-gray-700">
+            Neto:{" "}
+            <span className="font-bold text-green-700">
+              ${precioNeto.toFixed(2)}
+            </span>
           </div>
         </div>
 
         {/* Cantidad y botón */}
-        <div className="mt-4 flex items-center gap-3 flex-shrink-0">
+        <div className="mt-4 flex items-center gap-3">
           <input
             type="number"
             min={1}
@@ -137,12 +142,12 @@ export const AdminProductItem: React.FC<Props> = ({
               if (Number.isNaN(v)) setCantidadPedida("");
               else setCantidadPedida(Math.max(0, v));
             }}
-            className="w-20 p-2 border rounded text-center"
+            className="w-20 p-2 border rounded text-center border-gray-900"
             aria-label={`Cantidad de ${producto.descripcion}`}
           />
           <button
             onClick={handleAgregar}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+            className="bg-primary-600 text-white px-4 py-2 rounded-md border border-primary-700 hover:bg-primary-700 transition"
             aria-label={`Agregar ${producto.descripcion}`}
           >
             Agregar
