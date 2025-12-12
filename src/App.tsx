@@ -5,6 +5,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute"; // 👈 Importa tu
 import LoginPage from "./pages/LoginPage";
 // import { IndexPage } from "./pages/IndexPage";
 import ComingSoon from "./pages/ComingSoon";
+import { InfoPedidoPage } from "./pages/InfoPedidosPage";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<ComingSoon />} path="/home" />
         <Route element={<ComingSoon />} path="/perfil" />
-        <Route element={<ComingSoon />} path="/mispedidos" />
+        <Route element={<InfoPedidoPage />} path="/mispedidos" />
         <Route element={<CarritoClientePage />} path="/catalogo" />
         <Route element={<ComingSoon />} path="/reclamos" />
         <Route element={<ComingSoon />} path="/pagos" />
