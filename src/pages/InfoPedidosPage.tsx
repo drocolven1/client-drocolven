@@ -16,6 +16,11 @@ import {
   List,
   Filter,
   RotateCcw,
+  Notebook,
+  SheetIcon,
+  Sheet,
+  CheckCheck,
+  Search,
 } from "lucide-react";
 
 import { Pedido } from "@/types";
@@ -28,6 +33,7 @@ import { Button } from "@heroui/button";
 const ESTADOS_PEDIDO = [
   { key: "all", label: "Todos los estados" },
   { key: "picking", label: "Picking" },
+  { key: "Checkpicking", label: "CheckPicking" },
   { key: "packing", label: "Packing" },
   { key: "enviado", label: "Enviado" },
   { key: "entregado", label: "Entregado" },
@@ -350,12 +356,22 @@ export function InfoPedidoPage() {
                   {
                     key: "picking",
                     label: "Picking",
-                    icon: <List className="h-5 w-5 sm:h-6 sm:w-6" />,
+                    icon: <Search className="h-5 w-5 sm:h-6 sm:w-6" />,
+                  },
+                  {
+                    key: "checkpicking",
+                    label: "CheckPicking",
+                    icon: <CheckCheck className="h-5 w-5 sm:h-6 sm:w-6" />,
                   },
                   {
                     key: "packing",
                     label: "Packing",
                     icon: <PackagePlus className="h-5 w-5 sm:h-6 sm:w-6" />,
+                  },
+                  {
+                    key: "para_facturar",
+                    label: "Facturacion",
+                    icon: <Sheet className="h-5 w-5 sm:h-6 sm:w-6" />,
                   },
                   {
                     key: "enviado",

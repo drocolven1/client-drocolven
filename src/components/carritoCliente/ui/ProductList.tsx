@@ -17,16 +17,14 @@ export const ProductList: React.FC<ProductListProps> = ({
   descuentoCliente2,
   loading,
 }) => {
-  const [visibleCount, setVisibleCount] = useState(20); // Cantidad inicial de productos renderizados
+  const [visibleCount, setVisibleCount] = useState(20);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Manejar scroll para incrementar visibleCount
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
       const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
       if (scrollTop + clientHeight >= scrollHeight - 200) {
-        // Cargar más productos a medida que se acerca al final
         setVisibleCount((prev) => Math.min(prev + 20, productos.length));
       }
     };
