@@ -97,37 +97,38 @@ export const AdminProductItem: React.FC<Props> = ({
       <div className="flex-1 flex flex-row justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="text-2xl font-semibold text-gray-800">
+            <h3 className="text-2xl font-extrabold text-gray-800">
               {producto.descripcion}
             </h3>
-            <span className="text-xl text-primary-600">{producto.fv}</span>
+            <span className="text-lg text-primary-600">F.V. {producto.fv}</span>
           </div>
 
-          <div className="mt-2 flex flex-wrap gap-2 items-center text-xl text-gray-700">
-            <span>Precio base: ${safeNumber(producto.precio).toFixed(2)}</span>
-            <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700">
-              DL {safeNumber(producto.descuento1)}%
-            </span>
-            <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700">
-              DE {safeNumber(producto.descuento2)}%
-            </span>
-            <span className="px-2 py-0.5 rounded bg-green-50 text-green-700">
-              DC {safeNumber(descuentoCliente1)}%
-            </span>
-            <span className="px-2 py-0.5 rounded bg-green-50 text-green-700">
-              PP {safeNumber(descuentoCliente2)}%
-            </span>
-          </div>
-
-          <div className="mt-3 text-xl text-gray-700">
-            Base DL+DE:{" "}
-            <span className="font-medium">${precioBaseDLDE.toFixed(2)}</span>
-          </div>
-          <div className="text-3xl text-gray-700">
-            Neto:{" "}
-            <span className="font-bold text-green-700">
-              ${precioNeto.toFixed(2)}
-            </span>
+          <div className=" flex flex-col gap-2">
+            <div className="mt-2 flex flex-wrap gap-2 items-center text-xl font-black">
+              <span>Neto: ${safeNumber(producto.precio).toFixed(2)}</span>
+              <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700">
+                DL {safeNumber(producto.descuento1)}%
+              </span>
+              <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700">
+                DE {safeNumber(producto.descuento2)}%
+              </span>
+              <span className="px-2 py-0.5 rounded bg-green-50 text-green-700">
+                DC {safeNumber(descuentoCliente1)}%
+              </span>
+              <span className="px-2 py-0.5 rounded bg-green-50 text-green-700">
+                PP {safeNumber(descuentoCliente2)}%
+              </span>
+            </div>
+            <div className="text-xl text-gray-700">
+              Base DL+DE:{" "}
+              <span className="font-medium">${precioBaseDLDE.toFixed(2)}</span>
+            </div>
+            <div className="text-3xl font-black">
+              Total:{" "}
+              <span className="font-bold text-green-700">
+                ${precioNeto.toFixed(2)}
+              </span>
+            </div>
           </div>
         </div>
 
