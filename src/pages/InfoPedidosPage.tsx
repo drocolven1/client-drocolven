@@ -16,8 +16,6 @@ import {
   List,
   Filter,
   RotateCcw,
-  Notebook,
-  SheetIcon,
   Sheet,
   CheckCheck,
   Search,
