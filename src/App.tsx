@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 // import { IndexPage } from "./pages/IndexPage";
 import ComingSoon from "./pages/ComingSoon";
 import { InfoPedidoPage } from "./pages/InfoPedidosPage";
+import InfoClientePage from "./pages/InfoClientPage";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Route element={<LoginPage />} path="/login" />
       <Route element={<ProtectedRoute />}>
         <Route element={<ComingSoon />} path="/home" />
-        <Route element={<ComingSoon />} path="/perfil" />
+        <Route element={<InfoClientePage />} path="/perfil" />
         <Route element={<InfoPedidoPage />} path="/mispedidos" />
         <Route element={<CarritoClientePage />} path="/catalogo" />
         <Route element={<ComingSoon />} path="/reclamos" />
