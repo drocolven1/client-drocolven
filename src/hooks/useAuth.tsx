@@ -8,17 +8,18 @@ import {
 } from "react";
 import { jwtDecode } from "jwt-decode";
 import { NavigateFunction } from "react-router-dom";
-import { useClienteStore } from "../carritoCliente/store/cliente.storage";
+import { useClienteStore } from "../components/carritoCliente/store/cliente.storage";
 
 export type Usuario = {
   id: string;
   name: string;
   email: string;
   role: "user";
-  rif?: string;
+  rif: string;
   descripcion: string;
   descuento1: string;
   descuento2: string;
+  limite_credito: string;
 };
 
 type AuthContextType = {
@@ -88,9 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Llamar a Zustand para iniciar la persistencia del cliente
       if (isClient && decodedToken.rif) {
         // Asumimos que la información del token es suficiente para ClienteDetalle
-        useClienteStore
-          .getState()
-          .setClienteSeleccionado(decodedToken as any); //as clientDetalle 
+        useClienteStore.getState().setClienteSeleccionado(decodedToken as any); //as clientDetalle
       }
     } catch (error) {
       console.error("Error al decodificar el token:", error);

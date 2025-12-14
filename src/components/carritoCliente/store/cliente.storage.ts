@@ -8,6 +8,7 @@ export interface ClienteResumen {
   rif: string;
   encargado: string;
   descripcion: string;
+  limite_credito: string;
 }
 
 export interface ClienteDetalle extends ClienteResumen {

@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 
 import { Pedido } from "@/types";
-import { useAuth } from "@/components/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import PedidoCard from "@/components/PedidoCard";
 import ClientLayout from "@/layouts/Client";
 import { Button } from "@heroui/button";

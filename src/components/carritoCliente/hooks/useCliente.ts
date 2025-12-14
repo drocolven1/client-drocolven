@@ -5,7 +5,7 @@ import {
   ClienteResumen,
   useClienteStore,
 } from "../store/cliente.storage";
-import { useAuth } from "@/components/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 // Función de mapeo (utilidad) para limpiar el hook
 const mapToClienteDetalle = (data: any): ClienteDetalle => ({
@@ -17,7 +17,7 @@ const mapToClienteDetalle = (data: any): ClienteDetalle => ({
   direccion: data.direccion || "",
   telefono: data.telefono || "",
   activo: data.activo || false,
-  // Aseguramos la conversión numérica, manejando $numberDouble
+  limite_credito: data.limite_credito ,
   descuento1: Number(data.descuento1?.$numberDouble ?? data.descuento1) || 0,
   descuento2: Number(data.descuento2?.$numberDouble ?? data.descuento2) || 0,
   descuento3: Number(data.descuento3?.$numberDouble ?? data.descuento3) || 0,

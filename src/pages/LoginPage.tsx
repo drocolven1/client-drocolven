@@ -1,5 +1,5 @@
 import { useCliente } from "@/components/carritoCliente/hooks/useCliente";
-import { useAuth } from "@/components/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@heroui/button";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

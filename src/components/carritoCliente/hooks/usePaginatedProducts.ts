@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { CarritoProducto } from "../types/types";
-import { useAuth } from "@/components/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 // Definimos un límite de ítems por página
 const PAGE_LIMIT = 50;
