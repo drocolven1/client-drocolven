@@ -11,7 +11,7 @@ export interface Cliente {
 }
 
 // --- Constantes ---
-const API_BASE = "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 // 📦 Hook Principal (Solo API y Datos)
 export function useCreditManager() {
