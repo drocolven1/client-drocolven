@@ -113,8 +113,11 @@ export function useCreditManager() {
           rif: data.rif,
           limite_credito:
             data.estado_credito === "activo"
-              ? Number(data.limite_credito)
-              : Number(data.limite_credito_pendiente) || 0,
+              ? Number(data.limite_credito || 0)
+              : Math.min(
+                  Number(data.limite_credito || 0),
+                  Number(data.limite_credito_pendiente || 0)
+                ),
           estado_credito: (data.estado_credito || "inactivo").toLowerCase(),
           descripcion: data.descripcion || "Sin Descripcion",
         };

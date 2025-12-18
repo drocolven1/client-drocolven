@@ -223,11 +223,7 @@ export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
         setCreditoError(null);
         const creditoData = await getClienteByRif(rif);
 
-        if (
-          !creditoData ||
-          creditoData.estado_credito !== "activo" ||
-          creditoData.limite_credito < totals.totalFinal
-        ) {
+        if (!creditoData || creditoData.limite_credito < totals.totalFinal) {
           if (!creditoData)
             setCreditoError("No se encontró información de crédito");
           else if (creditoData.estado_credito !== "activo")
