@@ -132,7 +132,7 @@ interface Props {
 export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
   const navigate = useNavigate();
   const [creditoError, setCreditoError] = useState<string | null>(null);
-  const { getClienteByRif, actualizarLimite, actualizarEstado } =
+  const { getClienteByRif, actualizarLimitePendiente, actualizarEstado } =
     useCreditManager();
   const carrito = useCarritoStore((s) => s.carrito);
   const limpiarCarrito = useCarritoStore((s) => s.limpiar);
@@ -263,7 +263,7 @@ export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
 
       try {
         console.log(`🔄 PATCH límite ${rif}: $${nuevoLimite}`);
-        const limiteOk = await actualizarLimite(rif, nuevoLimite);
+        const limiteOk = await actualizarLimitePendiente(rif, nuevoLimite);
 
         console.log(`🔄 PATCH estado ${rif}: pendiente`);
         const estadoOk = await actualizarEstado(rif, "pendiente");
@@ -275,7 +275,7 @@ export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
         return false;
       }
     },
-    [totals.totalFinal, actualizarLimite, actualizarEstado]
+    [totals.totalFinal, actualizarLimitePendiente, actualizarEstado]
   );
 
   // Lista memoizada

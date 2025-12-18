@@ -105,11 +105,16 @@ export function useCreditManager() {
         // Mapeamos los datos al tipo Cliente (asumiendo rif, limite_credito, estado_credito, descripcion son devueltos)
         // Nota: El email y el _id no se obtienen directamente de este endpoint, pero son requeridos por la interfaz Cliente.
         // Aquí devolvemos lo que tenemos, y el consumidor del hook deberá saber que faltan email/_id.
+        // const limite_credito = ()=> if (data)
+
         const clienteData: Cliente = {
           _id: "", // Se deja vacío, ya que el endpoint no lo devuelve
           email: "", // Se deja vacío
           rif: data.rif,
-          limite_credito: Number(data.limite_credito) || 0,
+          limite_credito:
+            data.estado_credito === "activo"
+              ? Number(data.limite_credito)
+              : Number(data.limite_credito_pendiente) || 0,
           estado_credito: (data.estado_credito || "inactivo").toLowerCase(),
           descripcion: data.descripcion || "Sin Descripcion",
         };
@@ -159,6 +164,39 @@ export function useCreditManager() {
     },
     []
   );
+
+  const actualizarLimitePendiente = useCallback(
+    async (rif: string, nuevoLimite: number) => {
+      console.log("🔄 PATCH límite:", rif, nuevoLimite); // 🆕 DEBUG
+
+      try {
+        const response = await fetch(
+          `${API_BASE}/clientes/${rif}/credito/pendiente`,
+          {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ limite_credito: nuevoLimite }),
+          }
+        );
+
+        console.log("📡 Response status:", response.status); // 🆕 DEBUG
+        console.log("📡 Response ok:", response.ok); // 🆕 DEBUG
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("❌ ERROR completo:", errorText); // 🆕 DEBUG
+          throw new Error("Error al actualizar límite");
+        }
+
+        return true;
+      } catch (error) {
+        console.error("❌ CATCH completo:", error); // 🆕 DEBUG
+        return false;
+      }
+    },
+    []
+  );
+
   // 4. Actualizar Estado de Crédito (Fetch PATCH /clientes/{rif}/credito/estado)
   const actualizarEstado = useCallback(
     async (rif: string, nuevoEstado: string): Promise<boolean> => {
@@ -196,6 +234,7 @@ export function useCreditManager() {
     cargarClientes,
     getClienteByRif, // 🆕 Nueva función
     actualizarLimite,
+    actualizarLimitePendiente,
     actualizarEstado,
 
     // Utilidad
