@@ -45,7 +45,7 @@ export const ProductList: React.FC<ProductListProps> = ({
   return (
     <div
       ref={containerRef}
-      className="w-full h-full rounded-xl overflow-y-auto max-h-[85vh]"
+      className="w-full h-full rounded-xl overflow-y-auto max-h-[70vh]"
     >
       {productos.slice(0, visibleCount).map((producto) => (
         <div key={producto.codigo} className="p-3">

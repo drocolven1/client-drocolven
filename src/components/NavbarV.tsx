@@ -7,14 +7,13 @@ import {
   CalendarCheck,
   ClosedCaption,
   CreditCard,
-  House,
+  Home,
   Info,
   LogOut,
   MenuIcon,
   MessageSquareWarning,
   ReceiptText,
   ShoppingCart,
-  User,
 } from "lucide-react";
 import { Button } from "@heroui/button";
 
@@ -25,8 +24,8 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
-  { label: "Inicio", href: "/home", icon: <House className="w-5 h-5" /> },
-  { label: "Perfil", href: "/perfil", icon: <User className="w-5 h-5" /> },
+  // { label: "Inicio", href: "/home", icon: <House className="w-5 h-5" /> },
+  { label: "Home", href: "/home", icon: <Home className="w-5 h-5" /> },
   {
     label: "Pedidos",
     href: "/mispedidos",

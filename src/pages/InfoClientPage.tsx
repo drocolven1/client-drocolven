@@ -7,8 +7,8 @@ import {
   CalendarClock,
   Percent,
   Shield,
-  DollarSign, // 🆕 Para límite de crédito
-  CreditCard, // 🆕 Icono de crédito
+  CreditCard,
+  AlertCircle, // 🆕 Icono de crédito
 } from "lucide-react";
 import { useCreditManager } from "@/hooks/useCreditos";
 import { Deuda } from "@/components/Deuda";
@@ -139,244 +139,171 @@ const InfoClientePage: React.FC = () => {
   const isExpired = timeLeft === 0;
 
   return (
-    <ClientLayout>
-      <div className="max-h-full p-8 lg:p-16 pb-24 relative overflow-y-auto overflow-x-hidden">
-        {/* Background particles */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-green-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+  <ClientLayout>
+      <div className="min-h-full w-full bg-[#0f172a] text-slate-200 relative overflow-hidden selection:bg-indigo-500/30">
+        
+        {/* Background Ambient Effects (Más sutiles) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] mix-blend-screen animate-pulse" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[120px] mix-blend-screen" />
+          {/* Grid Pattern overlay */}
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
         </div>
 
-        <div className="max-w-6xl mx-auto">
-          {/* Header Hero */}
-          <div className="relative z-10 mb-20 lg:mb-5">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-              <div className="flex flex-row items-start gap-5 justify-between w-full">
-                <div className="flex flex-row items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500/80 to-indigo-600/80 backdrop-blur-xl border border-blue-500/50 rounded-2xl mb-6 shadow-2xl">
-                  <Shield className="w-6 h-6 text-white" />
-                  <span className="text-2xl font-black text-white tracking-tight">
-                    RIF: {cliente.rif}
-                  </span>
+        <div className="relative z-10 max-w-7xl mx-auto p-6 lg:p-10 space-y-8">
+          
+          {/* 1. HERO SECTION: Perfil del Cliente */}
+          <div className="w-full bg-slate-900/40 backdrop-blur-2xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl overflow-hidden relative">
+             <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-transparent blur-3xl rounded-full pointer-events-none" />
+             
+             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative z-10">
+                <div className="flex items-center gap-6">
+                  {/* Avatar Grande */}
+                  <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 p-[2px] shadow-lg shadow-blue-500/20">
+                    <div className="w-full h-full bg-slate-900 rounded-2xl flex items-center justify-center">
+                      <User2 className="w-10 h-10 text-blue-400" />
+                    </div>
+                  </div>
+                  
+                  {/* Textos */}
+                  <div className="space-y-1">
+                    <h1 className="text-3xl lg:text-4xl font-bold text-white tracking-tight">
+                      {cliente.descripcion || cliente.name}
+                    </h1>
+                    <div className="flex flex-wrap items-center gap-4 text-slate-400 font-medium">
+                      <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-1 rounded-full border border-slate-700">
+                        <Shield className="w-4 h-4 text-emerald-400" />
+                        <span>RIF: <span className="text-slate-200">{cliente.rif}</span></span>
+                      </div>
+                      <div className="flex items-center gap-2 hover:text-blue-400 transition-colors cursor-pointer">
+                        <Mail className="w-4 h-4" />
+                        <span>{cliente.email}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <Deuda />
-              </div>
-            </div>
+
+                {/* Componente de Deuda integrado */}
+                <div className="w-full lg:w-auto min-w-[280px]">
+                   <div className="bg-slate-950/50 rounded-2xl p-1 border border-slate-800">
+                      <Deuda /> 
+                   </div>
+                </div>
+             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12 relative z-10">
-            {/* Cliente Info */}
-            <div className="lg:col-span-2 xl:col-span-2 group">
-              <div className="bg-gradient-to-br from-white/5 to-transparent backdrop-blur-xl border border-white/10 rounded-3xl p-10 lg:p-12 hover:border-white/20 transition-all duration-500 hover:shadow-2xl">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-xl">
-                    <User2 className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-black text-white mb-1">
-                      Cliente
-                    </h3>
-                    <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-transparent rounded-full" />
-                  </div>
+          {/* 2. GRID DE MÉTRICAS FINANCIERAS */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            
+            {/* CARD: Línea de Crédito */}
+            <div className="group relative bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 hover:border-indigo-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1">
+              <div className="flex items-start justify-between mb-8">
+                <div>
+                   <p className="text-indigo-300 font-medium uppercase tracking-wider text-sm mb-1">Línea de Crédito</p>
+                   {creditoLoading ? (
+                     <div className="h-10 w-32 bg-slate-700/50 animate-pulse rounded-lg"/>
+                   ) : (
+                     <h3 className="text-4xl font-bold text-white tracking-tight">
+                       ${credito?.limite_credito?.toLocaleString() || "0"}
+                     </h3>
+                   )}
                 </div>
-
-                <div className="space-y-8">
-                  <div className="group/item flex items-start gap-4 p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-x-2">
-                    <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center border-2 border-purple-500/30 flex-shrink-0 mt-1">
-                      <User2 className="w-8 h-8 text-purple-300" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-sm font-semibold text-purple-300 uppercase tracking-wider">
-                          Nombre / Razón Social
-                        </span>
-                      </div>
-                      <h2 className="text-3xl lg:text-4xl font-black text-white leading-tight group-hover/item:text-blue-100 transition-colors">
-                        {cliente.descripcion || cliente.name}
-                      </h2>
-                    </div>
-                  </div>
-
-                  <div className="group/item flex items-start gap-4 p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-x-2">
-                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl flex items-center justify-center border-2 border-blue-500/30 flex-shrink-0 mt-1">
-                      <Mail className="w-8 h-8 text-blue-300" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="text-sm font-semibold text-blue-300 uppercase tracking-wider">
-                          Email
-                        </span>
-                      </div>
-                      <div className="text-xl font-semibold text-blue-200 break-words hover:text-blue-100 transition-colors group-hover/item:underline">
-                        {cliente.email}
-                      </div>
-                    </div>
-                  </div>
+                <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center border border-indigo-500/20 group-hover:bg-indigo-500/20 transition-colors">
+                  <CreditCard className="w-6 h-6 text-indigo-400" />
                 </div>
+              </div>
+
+              {/* Status Bar */}
+              <div className="space-y-3">
+                 <div className="flex justify-between text-sm">
+                    <span className="text-slate-400">Estado</span>
+                    <span className={`${
+                      credito?.estado_credito === 'activo' ? 'text-emerald-400' : 
+                      credito?.estado_credito === 'pendiente' ? 'text-amber-400' : 'text-red-400'
+                    } font-bold uppercase`}>
+                      {credito?.estado_credito || 'Inactivo'}
+                    </span>
+                 </div>
+                 {/* Progress bar visual (decorativa) */}
+                 <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div className={`h-full rounded-full ${
+                      credito?.estado_credito === 'activo' ? 'bg-gradient-to-r from-indigo-500 to-purple-500 w-full' : 'w-0'
+                    }`} />
+                 </div>
               </div>
             </div>
 
-            {/* 🆕 NUEVA CARD: Límite de Crédito */}
-            <div>
-              <div className="bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-indigo-500/5 backdrop-blur-xl border border-indigo-500/30 rounded-3xl p-10 lg:p-12 h-fit shadow-2xl hover:shadow-3xl transition-all duration-500 hover:border-indigo-400/50 relative overflow-hidden">
-                {/* Badge de loading */}
-                {creditoLoading && (
-                  <div className="absolute top-4 right-4">
-                    <div className="w-6 h-6 border-2 border-indigo-400/50 border-t-indigo-400 rounded-full animate-spin" />
-                  </div>
-                )}
-
-                <div className="flex items-center gap-4 mb-10">
-                  <div className="w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl">
-                    <CreditCard className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-black text-white mb-1">
-                      Línea de Crédito
-                    </h3>
-                    <div className="w-24 h-1 bg-gradient-to-r from-indigo-400 to-transparent rounded-full" />
-                  </div>
+            {/* CARD: Descuentos */}
+            <div className="group relative bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/10 hover:-translate-y-1">
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                   <p className="text-emerald-300 font-medium uppercase tracking-wider text-sm mb-1">Estructura de Descuentos</p>
+                   {/* <h3 className="text-4xl font-bold text-white tracking-tight">
+                     {Math.max(Number(cliente.descuento1 || 0), Number(cliente.descuento2 || 0))}% <span className="text-xl text-slate-500 font-normal">max</span>
+                   </h3> */}
                 </div>
+                <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-colors">
+                  <Percent className="w-6 h-6 text-emerald-400" />
+                </div>
+              </div>
 
-                {credito ? (
-                  <>
-                    <div className="text-center">
-                      <div className="text-5xl lg:text-6xl font-black bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-2xl mb-4">
-                        ${credito.limite_credito?.toLocaleString() || "0"}
-                      </div>
-                      <div className="text-lg font-semibold text-indigo-200 uppercase tracking-wider mb-6">
-                        Límite Disponible
-                      </div>
-
-                      {/* Estado del crédito */}
-                      <div
-                        className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-lg transition-all duration-300 ${
-                          credito.estado_credito === "activo"
-                            ? "bg-green-500/20 text-green-300 border border-green-500/40"
-                            : credito.estado_credito === "pendiente"
-                              ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/40"
-                              : "bg-red-500/20 text-red-300 border border-red-500/40"
-                        }`}
-                      >
-                        <span
-                          className={`w-3 h-3 rounded-full ${
-                            credito.estado_credito === "activo"
-                              ? "bg-green-400"
-                              : credito.estado_credito === "pendiente"
-                                ? "bg-yellow-400"
-                                : "bg-red-400"
-                          }`}
-                        />
-                        {credito.estado_credito?.toUpperCase() || "INACTIVO"}
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-center text-indigo-300">
-                    <DollarSign className="w-24 h-24 mx-auto opacity-40 mb-6" />
-                    <p className="text-xl font-semibold">Sin límite asignado</p>
-                    <p className="text-indigo-400 mt-2">
-                      El administrador aún no ha configurado tu línea de crédito
-                    </p>
-                  </div>
-                )}
+              <div className="grid grid-cols-2 gap-4 mt-8">
+                 <div className="bg-emerald-900/20 rounded-xl p-4 border border-emerald-500/10 text-center">
+                    <span className="block text-2xl font-bold text-white">{cliente.descuento1}%</span>
+                    <span className="text-xs text-emerald-200/60 uppercase font-semibold">Comercial</span>
+                 </div>
+                 <div className="bg-emerald-900/20 rounded-xl p-4 border border-emerald-500/10 text-center">
+                    <span className="block text-2xl font-bold text-white">{cliente.descuento2}%</span>
+                    <span className="text-xs text-emerald-200/60 uppercase font-semibold">Especial</span>
+                 </div>
               </div>
             </div>
 
-            {/* Descuentos (sin cambios) */}
-            <div>
-              <div className="bg-gradient-to-br from-green-500/20 via-emerald-500/10 to-green-500/5 backdrop-blur-xl border border-green-500/30 rounded-3xl p-10 lg:p-12 h-fit shadow-2xl hover:shadow-3xl transition-all duration-500 hover:border-green-400/50">
-                <div className="flex items-center gap-4 mb-10">
-                  <div className="w-14 h-14 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center shadow-xl">
-                    <Percent className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-black text-white mb-1">
-                      Descuentos
-                    </h3>
-                    <div className="w-24 h-1 bg-gradient-to-r from-green-400 to-transparent rounded-full" />
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="text-center group">
-                    <div className="text-5xl lg:text-6xl font-black bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 bg-clip-text text-transparent drop-shadow-2xl mb-3">
-                      {cliente.descuento1}%
-                    </div>
-                    <div className="text-lg font-semibold text-green-200 uppercase tracking-wider">
-                      Descuento Comercial
-                    </div>
-                  </div>
-
-                  <div className="text-center group">
-                    <div className="text-5xl lg:text-6xl font-black bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 bg-clip-text text-transparent drop-shadow-2xl mb-3">
-                      {cliente.descuento2}%
-                    </div>
-                    <div className="text-lg font-semibold text-green-200 uppercase tracking-wider">
-                      Descuento Especial
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Expiración (sin cambios) */}
+            {/* CARD: Sesión / Expiración (Más compacta) */}
             {cliente.exp && (
-              <div
-                className={`col-span-full group ${isExpired ? "animate-pulse" : ""}`}
-              >
-                <div
-                  className={`backdrop-blur-xl border-2 rounded-3xl p-10 lg:p-12 shadow-2xl transition-all duration-500 hover:shadow-3xl ${
-                    isExpired
-                      ? "bg-gradient-to-br from-red-500/30 via-red-600/20 to-red-500/10 border-red-500/50 hover:border-red-400/70"
-                      : "bg-gradient-to-br from-yellow-500/30 via-orange-500/20 to-yellow-500/10 border-yellow-500/50 hover:border-yellow-400/70"
-                  }`}
-                >
-                  <div className="flex items-center gap-4 mb-8">
-                    <div
-                      className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl ${
-                        isExpired
-                          ? "bg-gradient-to-r from-red-500 to-red-600"
-                          : "bg-gradient-to-r from-yellow-500 to-orange-500"
-                      }`}
-                    >
-                      <CalendarClock className="w-7 h-7 text-white" />
-                    </div>
-                    <div>
-                      <h3
-                        className={`text-2xl font-black mb-1 ${
-                          isExpired ? "text-red-200" : "text-yellow-200"
-                        }`}
-                      >
-                        Sesión Activa
-                      </h3>
-                      <div
-                        className={`w-24 h-1 rounded-full ${
-                          isExpired ? "bg-red-400/60" : "bg-yellow-400/60"
-                        }`}
-                      />
-                    </div>
-                  </div>
-
-                  <div
-                    className={`text-4xl lg:text-5xl font-black text-center mb-4 ${
-                      isExpired
-                        ? "text-red-200 drop-shadow-lg"
-                        : "text-yellow-200 drop-shadow-lg"
-                    }`}
-                  >
-                    {isExpired ? "¡EXPIRADO!" : `${hoursLeft}h ${minutesLeft}m`}
-                  </div>
-                  <div
-                    className={`text-xl font-semibold text-center uppercase tracking-wider ${
-                      isExpired ? "text-red-300" : "text-yellow-300"
-                    }`}
-                  >
-                    Tiempo restante
-                  </div>
+              <div className={`relative bg-slate-900/40 backdrop-blur-xl border rounded-3xl p-8 transition-all duration-300 ${
+                 isExpired 
+                 ? 'border-red-500/50 shadow-red-900/20 shadow-2xl' 
+                 : 'border-slate-700/50 hover:border-amber-500/30'
+              }`}>
+                <div className="flex items-start justify-between mb-8">
+                   <div>
+                     <p className={`font-medium uppercase tracking-wider text-sm mb-1 ${isExpired ? 'text-red-400' : 'text-amber-300'}`}>
+                       Sesión Activa
+                     </p>
+                     <h3 className={`text-4xl font-bold tracking-tight ${isExpired ? 'text-red-500' : 'text-white'}`}>
+                       {isExpired ? "EXPIRADO" : `${hoursLeft}h ${minutesLeft}m`}
+                     </h3>
+                   </div>
+                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-colors ${
+                      isExpired ? 'bg-red-500/10 border-red-500/20' : 'bg-amber-500/10 border-amber-500/20'
+                   }`}>
+                     {isExpired ? (
+                        <AlertCircle className="w-6 h-6 text-red-500" />
+                     ) : (
+                        <CalendarClock className="w-6 h-6 text-amber-400" />
+                     )}
+                   </div>
+                </div>
+                
+                <div className="bg-slate-950/30 rounded-lg p-3 text-sm text-slate-400 text-center border border-slate-800">
+                  {isExpired 
+                    ? "Por favor, renueva tu token de acceso." 
+                    : "El sistema cerrará sesión automáticamente al finalizar."
+                  }
                 </div>
               </div>
             )}
+            
           </div>
+
+          {/* 3. Footer / Acciones rápidas (Opcional, para llenar espacio si sobra) */}
+          <div className="text-center pt-8 border-t border-slate-800/50">
+            <p className="text-slate-500 text-sm">
+              Última sincronización de datos: <span className="text-indigo-400 font-medium">Hace un momento</span>
+            </p>
+          </div>
+
         </div>
       </div>
     </ClientLayout>

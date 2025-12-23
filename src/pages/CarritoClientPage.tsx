@@ -21,6 +21,8 @@ import { Button } from "@heroui/button";
 
 import { filtrarPorMultiplesPalabrasAND } from "@/components/carritoCliente/utils/filter";
 import ClientLayout from "@/layouts/Client";
+import { Deuda } from "@/components/Deuda";
+import { CreditDisplay } from "@/components/Credito";
 
 export function CarritoClientePage() {
   // -------------------------
@@ -94,19 +96,22 @@ export function CarritoClientePage() {
   // -------------------------
   return (
     <ClientLayout>
-      <div className="page-container flex flex-col gap-4 p-4 min-h-screen">
+      <div className="page-container flex flex-col gap-4 p-4">
         {/* Botón de Logout/Cerrar Sesión 🚪
         <div className="flex justify-end mb-4">
-          <Button
-            color="danger"
-            variant="flat"
-            size="sm"
-            onPress={handleLogout}
+        <Button
+        color="danger"
+        variant="flat"
+        size="sm"
+        onPress={handleLogout}
           >
-            Cerrar Sesión
+          Cerrar Sesión
           </Button>
-        </div> */}
-
+          </div> */}
+        <div className="flex flex-row items-center justify-end h-16 gap-2 m-4">
+          <Deuda />
+          <CreditDisplay rif={clienteSeleccionado.rif} />
+        </div>
         {/* Búsqueda */}
         <Buscador busqueda={busqueda} setBusqueda={setBusqueda} />
 

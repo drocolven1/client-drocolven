@@ -30,9 +30,6 @@ export function useCreditManager() {
     []
   );
 
-  // --- Peticiones a la API ---
-
-  // 1. Cargar Clientes (Fetch GET /clientes/creditos/all)
   const cargarClientes = useCallback(async (): Promise<Cliente[] | null> => {
     setError(null);
     try {

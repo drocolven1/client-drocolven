@@ -13,8 +13,7 @@ function App() {
     <Routes>
       <Route element={<LoginPage />} path="/login" />
       <Route element={<ProtectedRoute />}>
-        <Route element={<ComingSoon />} path="/home" />
-        <Route element={<InfoClientePage />} path="/perfil" />
+        <Route element={<InfoClientePage />} path="/home" />
         <Route element={<InfoPedidoPage />} path="/mispedidos" />
         <Route element={<CarritoClientePage />} path="/catalogo" />
         <Route element={<ComingSoon />} path="/reclamos" />
