@@ -7,10 +7,11 @@ import {
   CalendarClock,
   Percent,
   Shield,
-  DollarSign,  // 🆕 Para límite de crédito
-  CreditCard,  // 🆕 Icono de crédito
+  DollarSign, // 🆕 Para límite de crédito
+  CreditCard, // 🆕 Icono de crédito
 } from "lucide-react";
 import { useCreditManager } from "@/hooks/useCreditos";
+import { Deuda } from "@/components/Deuda";
 
 interface ClienteSeleccionado {
   id: string;
@@ -87,10 +88,10 @@ const InfoClientePage: React.FC = () => {
         }
 
         setCliente(parsedData.state.clienteSeleccionado);
-        
+
         // 🆕 Cargar crédito DESPUÉS de tener el cliente
         await credito_cliente(parsedData.state.clienteSeleccionado.rif);
-        
+
         setLoading(false);
       } catch (err: any) {
         setError("Error al leer datos del almacenamiento local");
@@ -150,13 +151,14 @@ const InfoClientePage: React.FC = () => {
           {/* Header Hero */}
           <div className="relative z-10 mb-20 lg:mb-5">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-              <div className="flex flex-col items-start lg:items-start">
-                <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500/80 to-indigo-600/80 backdrop-blur-xl border border-blue-500/50 rounded-2xl mb-6 shadow-2xl">
+              <div className="flex flex-row items-start gap-5 justify-between w-full">
+                <div className="flex flex-row items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500/80 to-indigo-600/80 backdrop-blur-xl border border-blue-500/50 rounded-2xl mb-6 shadow-2xl">
                   <Shield className="w-6 h-6 text-white" />
                   <span className="text-2xl font-black text-white tracking-tight">
                     RIF: {cliente.rif}
                   </span>
                 </div>
+                <Deuda />
               </div>
             </div>
           </div>
@@ -222,7 +224,7 @@ const InfoClientePage: React.FC = () => {
                     <div className="w-6 h-6 border-2 border-indigo-400/50 border-t-indigo-400 rounded-full animate-spin" />
                   </div>
                 )}
-                
+
                 <div className="flex items-center gap-4 mb-10">
                   <div className="w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl">
                     <CreditCard className="w-7 h-7 text-white" />
@@ -239,26 +241,32 @@ const InfoClientePage: React.FC = () => {
                   <>
                     <div className="text-center">
                       <div className="text-5xl lg:text-6xl font-black bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-2xl mb-4">
-                        ${credito.limite_credito?.toLocaleString() || '0'}
+                        ${credito.limite_credito?.toLocaleString() || "0"}
                       </div>
                       <div className="text-lg font-semibold text-indigo-200 uppercase tracking-wider mb-6">
                         Límite Disponible
                       </div>
-                      
+
                       {/* Estado del crédito */}
-                      <div className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-lg transition-all duration-300 ${
-                        credito.estado_credito === 'activo' 
-                          ? 'bg-green-500/20 text-green-300 border border-green-500/40' 
-                          : credito.estado_credito === 'pendiente' 
-                          ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/40' 
-                          : 'bg-red-500/20 text-red-300 border border-red-500/40'
-                      }`}>
-                        <span className={`w-3 h-3 rounded-full ${
-                          credito.estado_credito === 'activo' ? 'bg-green-400' 
-                          : credito.estado_credito === 'pendiente' ? 'bg-yellow-400' 
-                          : 'bg-red-400'
-                        }`} />
-                        {credito.estado_credito?.toUpperCase() || 'INACTIVO'}
+                      <div
+                        className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-lg transition-all duration-300 ${
+                          credito.estado_credito === "activo"
+                            ? "bg-green-500/20 text-green-300 border border-green-500/40"
+                            : credito.estado_credito === "pendiente"
+                              ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/40"
+                              : "bg-red-500/20 text-red-300 border border-red-500/40"
+                        }`}
+                      >
+                        <span
+                          className={`w-3 h-3 rounded-full ${
+                            credito.estado_credito === "activo"
+                              ? "bg-green-400"
+                              : credito.estado_credito === "pendiente"
+                                ? "bg-yellow-400"
+                                : "bg-red-400"
+                          }`}
+                        />
+                        {credito.estado_credito?.toUpperCase() || "INACTIVO"}
                       </div>
                     </div>
                   </>
@@ -266,7 +274,9 @@ const InfoClientePage: React.FC = () => {
                   <div className="text-center text-indigo-300">
                     <DollarSign className="w-24 h-24 mx-auto opacity-40 mb-6" />
                     <p className="text-xl font-semibold">Sin límite asignado</p>
-                    <p className="text-indigo-400 mt-2">El administrador aún no ha configurado tu línea de crédito</p>
+                    <p className="text-indigo-400 mt-2">
+                      El administrador aún no ha configurado tu línea de crédito
+                    </p>
                   </div>
                 )}
               </div>
@@ -311,42 +321,56 @@ const InfoClientePage: React.FC = () => {
 
             {/* Expiración (sin cambios) */}
             {cliente.exp && (
-              <div className={`col-span-full group ${isExpired ? "animate-pulse" : ""}`}>
-                <div className={`backdrop-blur-xl border-2 rounded-3xl p-10 lg:p-12 shadow-2xl transition-all duration-500 hover:shadow-3xl ${
-                  isExpired
-                    ? "bg-gradient-to-br from-red-500/30 via-red-600/20 to-red-500/10 border-red-500/50 hover:border-red-400/70"
-                    : "bg-gradient-to-br from-yellow-500/30 via-orange-500/20 to-yellow-500/10 border-yellow-500/50 hover:border-yellow-400/70"
-                }`}>
+              <div
+                className={`col-span-full group ${isExpired ? "animate-pulse" : ""}`}
+              >
+                <div
+                  className={`backdrop-blur-xl border-2 rounded-3xl p-10 lg:p-12 shadow-2xl transition-all duration-500 hover:shadow-3xl ${
+                    isExpired
+                      ? "bg-gradient-to-br from-red-500/30 via-red-600/20 to-red-500/10 border-red-500/50 hover:border-red-400/70"
+                      : "bg-gradient-to-br from-yellow-500/30 via-orange-500/20 to-yellow-500/10 border-yellow-500/50 hover:border-yellow-400/70"
+                  }`}
+                >
                   <div className="flex items-center gap-4 mb-8">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl ${
-                      isExpired
-                        ? "bg-gradient-to-r from-red-500 to-red-600"
-                        : "bg-gradient-to-r from-yellow-500 to-orange-500"
-                    }`}>
+                    <div
+                      className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl ${
+                        isExpired
+                          ? "bg-gradient-to-r from-red-500 to-red-600"
+                          : "bg-gradient-to-r from-yellow-500 to-orange-500"
+                      }`}
+                    >
                       <CalendarClock className="w-7 h-7 text-white" />
                     </div>
                     <div>
-                      <h3 className={`text-2xl font-black mb-1 ${
-                        isExpired ? "text-red-200" : "text-yellow-200"
-                      }`}>
+                      <h3
+                        className={`text-2xl font-black mb-1 ${
+                          isExpired ? "text-red-200" : "text-yellow-200"
+                        }`}
+                      >
                         Sesión Activa
                       </h3>
-                      <div className={`w-24 h-1 rounded-full ${
-                        isExpired ? "bg-red-400/60" : "bg-yellow-400/60"
-                      }`} />
+                      <div
+                        className={`w-24 h-1 rounded-full ${
+                          isExpired ? "bg-red-400/60" : "bg-yellow-400/60"
+                        }`}
+                      />
                     </div>
                   </div>
 
-                  <div className={`text-4xl lg:text-5xl font-black text-center mb-4 ${
-                    isExpired
-                      ? "text-red-200 drop-shadow-lg"
-                      : "text-yellow-200 drop-shadow-lg"
-                  }`}>
+                  <div
+                    className={`text-4xl lg:text-5xl font-black text-center mb-4 ${
+                      isExpired
+                        ? "text-red-200 drop-shadow-lg"
+                        : "text-yellow-200 drop-shadow-lg"
+                    }`}
+                  >
                     {isExpired ? "¡EXPIRADO!" : `${hoursLeft}h ${minutesLeft}m`}
                   </div>
-                  <div className={`text-xl font-semibold text-center uppercase tracking-wider ${
-                    isExpired ? "text-red-300" : "text-yellow-300"
-                  }`}>
+                  <div
+                    className={`text-xl font-semibold text-center uppercase tracking-wider ${
+                      isExpired ? "text-red-300" : "text-yellow-300"
+                    }`}
+                  >
                     Tiempo restante
                   </div>
                 </div>
