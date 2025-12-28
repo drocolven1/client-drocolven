@@ -23,4 +23,5 @@ export interface Pedido {
   observacion?: string;
   productos?: ProductoPedido[];
   cliente: string;
+  numero_fac_a2: string;
 }

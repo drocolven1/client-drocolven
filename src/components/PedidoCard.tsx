@@ -4,6 +4,7 @@ import { Pedido } from "@/types";
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import PedidoStepper from "./PedidosStepper";
 import ProductosExpander from "./ProductosExpander";
+import BotonDescargarFactura from "./BotonDescargarFactura";
 
 interface PedidoCardProps {
   pedido: Pedido;
@@ -25,9 +26,11 @@ const PedidoCard: React.FC<PedidoCardProps> = ({
       <CardHeader className="p-0 pb-3 sm:pb-4 border-b border-gray-100 mb-3 sm:mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-2">
           {/* Added a subtle background for the ID to make it pop slightly */}
-          Pedido #
+          Factura #
           <span className="font-extrabold text-primary-700 bg-primary-50/50 px-2 py-0.5 rounded-md tracking-wide">
-            {pedido._id.substring(0, 8)}
+            {pedido.numero_fac_a2
+              ? pedido.numero_fac_a2.substring(0, 8)
+              : "no registrado"}
           </span>
         </p>
         {/* Pedido Stepper */}
@@ -98,6 +101,7 @@ const PedidoCard: React.FC<PedidoCardProps> = ({
             </p>
           </div>
         )}
+        <BotonDescargarFactura numeroFactura={pedido.numero_fac_a2}/>
       </CardFooter>
     </Card>
   );
