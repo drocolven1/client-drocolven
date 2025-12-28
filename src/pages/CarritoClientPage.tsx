@@ -109,7 +109,9 @@ export function CarritoClientePage() {
           </Button>
           </div> */}
         <div className="flex flex-row items-center justify-end h-16 gap-2 m-4 animate__animated animate__fadeInLeft">
-          <Deuda />
+          <div>
+            <Deuda fila={true} />
+          </div>
           <CreditDisplay rif={clienteSeleccionado.rif} />
         </div>
         {/* Búsqueda */}

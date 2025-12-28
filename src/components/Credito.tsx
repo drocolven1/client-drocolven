@@ -41,7 +41,7 @@ export function CreditDisplay({ rif }: { rif: string }) {
 
       <div className="flex items-center gap-4 relative z-10">
         {/* Icono */}
-        <div className="w-12 h-12 flex items-center justify-center bg-slate-800 rounded-xl border border-slate-700 group-hover:border-indigo-500/20 group-hover:bg-indigo-950/30 transition-colors">
+        <div className="w-12 h-12 flex items-center justify-center bg-slate-800 rounded-xl group-hover:border-indigo-500/20 group-hover:bg-indigo-950/30 transition-colors">
           <CreditCard className="w-6 h-6 text-indigo-400" />
         </div>
 
