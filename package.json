@@ -31,6 +31,7 @@
     "@react-types/shared": "3.32.1",
     "@tailwindcss/postcss": "4.1.11",
     "@tailwindcss/vite": "4.1.11",
+    "animate.css": "^4.1.1",
     "clsx": "2.1.1",
     "framer-motion": "11.18.2",
     "jwt-decode": "^4.0.0",

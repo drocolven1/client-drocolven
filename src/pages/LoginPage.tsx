@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@heroui/button";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "animate.css";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -63,47 +64,47 @@ const LoginPage = () => {
         <div className="absolute inset-0">
           {/* Capa 1 - Puntos grandes */}
           <div
-            className="absolute top-20 left-20 w-4 h-4 bg-emerald-400 rounded-full opacity-60 animate-pulse"
+            className="absolute top-20 left-20 w-4 h-4 bg-primary-400 rounded-full opacity-60 animate-pulse"
             style={{ animationDelay: "0s" }}
           ></div>
           <div
-            className="absolute top-40 right-32 w-3 h-3 bg-emerald-500 rounded-full opacity-50 animate-ping"
+            className="absolute top-40 right-32 w-3 h-3 bg-primary-500 rounded-full opacity-50 animate-ping"
             style={{ animationDelay: "1s" }}
           ></div>
           <div
-            className="absolute bottom-40 left-1/4 w-2 h-2 bg-teal-400 rounded-full opacity-70 animate-pulse"
+            className="absolute bottom-40 left-1/4 w-2 h-2 bg-secondary-400 rounded-full opacity-70 animate-pulse"
             style={{ animationDelay: "2s" }}
           ></div>
           <div
-            className="absolute bottom-20 right-20 w-5 h-5 bg-emerald-500 rounded-full opacity-40 animate-bounce"
+            className="absolute bottom-20 right-20 w-5 h-5 bg-primary-500 rounded-full opacity-40 animate-bounce"
             style={{ animationDelay: "0.5s" }}
           ></div>
 
           {/* Capa 2 - Puntos medianos */}
           <div
-            className="absolute top-1/2 left-10 w-2 h-2 bg-emerald-400 rounded-full opacity-50 animate-pulse"
+            className="absolute top-1/2 left-10 w-2 h-2 bg-primary-400 rounded-full opacity-50 animate-pulse"
             style={{ animationDelay: "1.5s" }}
           ></div>
           <div
-            className="absolute top-60 right-1/3 w-3 h-3 bg-teal-500 rounded-full opacity-60 animate-ping"
+            className="absolute top-60 right-1/3 w-3 h-3 bg-secondary-500 rounded-full opacity-60 animate-ping"
             style={{ animationDelay: "0.8s" }}
           ></div>
           <div
-            className="absolute bottom-1/3 left-2/3 w-1.5 h-1.5 bg-emerald-400 rounded-full opacity-70 animate-pulse"
+            className="absolute bottom-1/3 left-2/3 w-1.5 h-1.5 bg-primary-400 rounded-full opacity-70 animate-pulse"
             style={{ animationDelay: "3s" }}
           ></div>
 
           {/* Capa 3 - Puntos pequeños */}
           <div
-            className="absolute top-10 right-10 w-1.5 h-1.5 bg-emerald-300 rounded-full opacity-40 animate-ping"
+            className="absolute top-10 right-10 w-1.5 h-1.5 bg-primary-300 rounded-full opacity-40 animate-ping"
             style={{ animationDelay: "2.5s" }}
           ></div>
           <div
-            className="absolute top-80 left-1/2 w-2 h-2 bg-teal-400 rounded-full opacity-50 animate-bounce"
+            className="absolute top-80 left-1/2 w-2 h-2 bg-secondary-400 rounded-full opacity-50 animate-bounce"
             style={{ animationDelay: "1.2s" }}
           ></div>
           <div
-            className="absolute bottom-60 right-1/4 w-1 h-1 bg-emerald-500 rounded-full opacity-60 animate-pulse"
+            className="absolute bottom-60 right-1/4 w-1 h-1 bg-primary-500 rounded-full opacity-60 animate-pulse"
             style={{ animationDelay: "4s" }}
           ></div>
         </div>
@@ -113,33 +114,34 @@ const LoginPage = () => {
       </div>
 
       {/* NAVBAR */}
-      <div className="fixed top-0 left-0 w-full h-14 border-b border-emerald-500/30 backdrop-blur-xl bg-black/40 z-50 flex items-center px-6 sm:px-10 shadow-2xl">
-        <p className="text-2xl font-black bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent drop-shadow-lg">
-          Drocolven
-        </p>
+      <div className="fixed top-0 left-0 w-full h-14 border-b border-primary-500/30 backdrop-blur-xl z-50 flex items-center px-6 sm:px-10 shadow-2xl">
+        <img
+          src="./icon_drocolven.png"
+          alt="logo drocolven"
+          className="h-12 mr-4"
+        />
+        <p className="text-2xl text-white font-bold">DROCOLVEN</p>
       </div>
 
       <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen gap-12 lg:gap-32 p-8 lg:p-16 pt-24 relative z-10">
         {/* TEXTO DE BIENVENIDA */}
-        <div className="text-left lg:text-center max-w-2xl lg:max-w-3xl order-2 lg:order-1">
-          <h1 className="text-5xl lg:text-6xl font-black mb-8 leading-tight bg-gradient-to-r from-white to-emerald-300 bg-clip-text text-transparent drop-shadow-2xl">
-            Bienvenido a
-            <br />
-            <span className="from-emerald-400 to-teal-400">Drocolven</span>
+        <div className="text-left lg:text-center max-w-3xl lg:max-w-6xl order-2 lg:order-1">
+          <h1 className="animate__animated animate__fadeInLeft text-5xl lg:text-8xl font-black mb-8 leading-tight bg-gradient-to-r from-white to-primary-100 bg-clip-text text-transparent drop-shadow-2xl">
+            Bienvenido a Drocolven
           </h1>
-          <p className="text-xl lg:text-2xl mb-8 text-slate-200 font-semibold drop-shadow-lg leading-relaxed">
+          <p className="animate__animated animate__bounceInUp text-xl lg:text-4xl mb-8 text-slate-200 font-semibold drop-shadow-lg leading-relaxed">
             Tu droguería de confianza con{" "}
-            <span className="text-emerald-300"> catálogo exclusivo</span>.
+            <span className="text-primary-300"> catálogo exclusivo</span>.
           </p>
           <div className="flex flex-col items-center text-lg lg:text-xl text-slate-300 space-y-4">
-            <p className="flex items-center gap-3">
-              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span>
+            <p className="flex items-center gap-3 animate__animated animate__bounceInUp">
+              <span className="w-2 h-2 bg-primary-400 rounded-full animate-ping"></span>
               Accede a tu carrito y ofertas especiales
             </p>
-            <p>
+            <p className="animate__animated animate__bounceInUp">
               ¿Nuevo cliente?{" "}
               <span
-                className="font-bold text-emerald-300 underline"
+                className="font-bold text-primary-300 underline"
                 onClick={() => {
                   // Redirige y hace scroll automático
                   window.location.href =
@@ -155,27 +157,17 @@ const LoginPage = () => {
         </div>
 
         {/* FORMULARIO - GLASSMORPHISM */}
-        <div className="w-full max-w-md lg:max-w-lg order-1 lg:order-2 bg-white/5 backdrop-blur-2xl border border-emerald-400/30 rounded-3xl shadow-2xl shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all duration-500 p-8 lg:p-12">
+        <div className="animate__animated animate__backInRight w-full max-w-md lg:max-w-lg order-1 lg:order-2 bg-white/5 backdrop-blur-2xl border border-primary-400/30 rounded-3xl shadow-2xl shadow-primary-500/20 hover:shadow-primary-500/40 transition-all duration-500 p-8">
           <div className="text-center mb-10">
-            <div className="w-20 h-20 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl mx-auto mb-6 flex items-center justify-center shadow-2xl border-4 border-white/20 drop-shadow-2xl">
-              <svg
-                className="w-10 h-10 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-            </div>
+            <img
+              src="./icon_drocolven.png"
+              alt="logo drocolven"
+              className="h-22 mx-auto"
+            />
             <h2 className="text-3xl lg:text-4xl font-black text-white mb-2 drop-shadow-xl">
               Acceso Clientes
             </h2>
-            <p className="text-emerald-200 font-semibold text-lg">
+            <p className="text-primary-200 font-semibold text-lg">
               Inicia sesión en tu cuenta
             </p>
           </div>
@@ -215,7 +207,7 @@ const LoginPage = () => {
                 type="email"
                 id="email"
                 placeholder="cliente@drocolven.com"
-                className="w-full p-4 border-2 border-white/30 bg-white/10 backdrop-blur-xl rounded-2xl text-white placeholder-slate-400 font-semibold text-lg focus:border-emerald-400 focus:outline-none focus:ring-4 focus:ring-emerald-500/40 transition-all duration-300 shadow-lg hover:shadow-emerald-500/20"
+                className="w-full p-4 border-2 border-white/30 bg-white/10 backdrop-blur-xl rounded-2xl text-white placeholder-slate-400 font-semibold text-lg focus:border-primary-400 focus:outline-none focus:ring-4 focus:ring-primary-500/40 transition-all duration-300 shadow-lg hover:shadow-primary-500/20"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -233,7 +225,7 @@ const LoginPage = () => {
                 type="password"
                 id="password"
                 placeholder="••••••••••••"
-                className="w-full p-4 border-2 border-white/30 bg-white/10 backdrop-blur-xl rounded-2xl text-white placeholder-slate-400 font-semibold text-lg focus:border-emerald-400 focus:outline-none focus:ring-4 focus:ring-emerald-500/40 transition-all duration-300 shadow-lg hover:shadow-emerald-500/20"
+                className="w-full p-4 border-2 border-white/30 bg-white/10 backdrop-blur-xl rounded-2xl text-white placeholder-slate-400 font-semibold text-lg focus:border-primary-400 focus:outline-none focus:ring-4 focus:ring-primary-500/40 transition-all duration-300 shadow-lg hover:shadow-primary-500/20"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -242,7 +234,7 @@ const LoginPage = () => {
 
             <button
               type="submit"
-              className="w-full py-5 px-8 text-xl font-black bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 active:scale-[0.98] rounded-3xl shadow-2xl shadow-emerald-500/50 hover:shadow-emerald-500/70 border border-emerald-400/50 backdrop-blur-xl transition-all duration-500 text-white uppercase tracking-wider"
+              className="w-full py-5 px-8 text-xl font-black bg-gradient-to-r from-primary-500 to-secondary-600 hover:from-primary-600 hover:to-secondary-700 active:scale-[0.98] rounded-3xl shadow-2xl shadow-primary-500/50 hover:shadow-primary-500/70 border border-primary-400/50 backdrop-blur-xl transition-all duration-500 text-white uppercase tracking-wider"
             >
               🚀 Entrar a la Plataforma
             </button>
@@ -260,7 +252,7 @@ const LoginPage = () => {
                 // O con scroll suave después de cargar:
                 // window.location.href = '/contacto#formulario-contacto';
               }}
-              className="w-full bg-white/20 hover:bg-white/30 border-white/40 backdrop-blur-xl text-white font-bold py-3 rounded-2xl transition-all duration-300 shadow-xl hover:shadow-emerald-400/30"
+              className="w-full bg-white/20 hover:bg-white/30 border-white/40 backdrop-blur-xl text-white font-bold py-3 rounded-2xl transition-all duration-300 shadow-xl hover:shadow-primary-400/30"
             >
               📞 Solicitar Acceso
             </Button>
