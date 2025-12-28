@@ -191,20 +191,20 @@ export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
     });
 
     // Descuentos cliente aplicados al total neto
-    const totalNeto = total;
-    const totalCliente1 =
-      totalNeto * (1 - (Number(cliente?.descuento1) ?? 0) / 100);
-    descuentoCliente1Total = totalNeto - totalCliente1;
+    const totalFinal = total;
+    // const totalCliente1 =
+    //   totalNeto * (1 - (Number(cliente?.descuento1) ?? 0) / 100);
+    // descuentoCliente1Total = totalNeto - totalCliente1;
 
-    const totalCliente2 =
-      totalCliente1 * (1 - (Number(cliente?.descuento2) ?? 0) / 100);
-    descuentoCliente2Total = totalCliente1 - totalCliente2;
+    // const totalCliente2 =
+    //   totalCliente1 * (1 - (Number(cliente?.descuento2) ?? 0) / 100);
+    // descuentoCliente2Total = totalCliente1 - totalCliente2;
 
-    const totalFinal = totalCliente2;
+    // const totalFinal = totalCliente2;
 
     return {
       subtotal: Number(subtotal.toFixed(2)),
-      total: Number(totalNeto.toFixed(2)),
+      // total: Number(totalNeto.toFixed(2)),
       totalDLDE: Number(totalDLDE.toFixed(2)),
       totalFinal: Number(totalFinal.toFixed(2)),
       descuento1: Number(descuento1Total.toFixed(2)),
