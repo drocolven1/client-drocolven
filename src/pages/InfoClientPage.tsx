@@ -141,10 +141,9 @@ const InfoClientePage: React.FC = () => {
   return (
   <ClientLayout>
       <div className="min-h-full w-full bg-[#0f172a] text-slate-200 relative overflow-hidden selection:bg-indigo-500/30">
-        
         {/* Background Ambient Effects (Más sutiles) */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] mix-blend-screen animate-pulse" />
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] mix-blend-screen" />
           <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[120px] mix-blend-screen" />
           {/* Grid Pattern overlay */}
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
@@ -153,7 +152,7 @@ const InfoClientePage: React.FC = () => {
         <div className="relative z-10 max-w-7xl mx-auto p-6 lg:p-10 space-y-8">
           
           {/* 1. HERO SECTION: Perfil del Cliente */}
-          <div className="w-full bg-slate-900/40 backdrop-blur-2xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl overflow-hidden relative">
+          <div className="animate__animated animate__backInDown w-full bg-slate-900/40 backdrop-blur-2xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl overflow-hidden relative ">
              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-transparent blur-3xl rounded-full pointer-events-none" />
              
              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative z-10">
@@ -193,7 +192,7 @@ const InfoClientePage: React.FC = () => {
           </div>
 
           {/* 2. GRID DE MÉTRICAS FINANCIERAS */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="animate__animated animate__backInUp grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 ">
             
             {/* CARD: Línea de Crédito */}
             <div className="group relative bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 hover:border-indigo-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1">
@@ -298,7 +297,7 @@ const InfoClientePage: React.FC = () => {
           </div>
 
           {/* 3. Footer / Acciones rápidas (Opcional, para llenar espacio si sobra) */}
-          <div className="text-center pt-8 border-t border-slate-800/50">
+          <div className="animate__animated animate__backInUp text-center pt-8 border-t border-slate-800/50">
             <p className="text-slate-500 text-sm">
               Última sincronización de datos: <span className="text-indigo-400 font-medium">Hace un momento</span>
             </p>

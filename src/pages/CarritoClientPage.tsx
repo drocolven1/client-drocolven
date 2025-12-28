@@ -108,7 +108,7 @@ export function CarritoClientePage() {
           Cerrar Sesión
           </Button>
           </div> */}
-        <div className="flex flex-row items-center justify-end h-16 gap-2 m-4 animate__animated animate__backInLeft">
+        <div className="flex flex-row items-center justify-end h-16 gap-2 m-4 animate__animated animate__fadeInLeft">
           <Deuda />
           <CreditDisplay rif={clienteSeleccionado.rif} />
         </div>
