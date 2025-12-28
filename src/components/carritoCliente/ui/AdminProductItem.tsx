@@ -27,8 +27,14 @@ export const AdminProductItem: React.FC<Props> = ({
     return typeof val === "number" ? val : 0;
   };
 
-  const precioBaseDLDE = safeNumber(producto.precio) * (1 - safeNumber(producto.descuento1) / 100) * (1 - safeNumber(producto.descuento2) / 100);
-  const precioNeto = precioBaseDLDE * (1 - safeNumber(descuentoCliente1) / 100) * (1 - safeNumber(descuentoCliente2) / 100);
+  const precioBaseDLDE =
+    safeNumber(producto.precio) *
+    (1 - safeNumber(producto.descuento1) / 100) *
+    (1 - safeNumber(producto.descuento2) / 100);
+  const precioNeto =
+    precioBaseDLDE *
+    (1 - safeNumber(descuentoCliente1) / 100) *
+    (1 - safeNumber(descuentoCliente2) / 100);
 
   const handleAgregar = () => {
     const cantidadValida = Number(cantidadPedida || 0);
@@ -49,17 +55,22 @@ export const AdminProductItem: React.FC<Props> = ({
 
   return (
     <div className="group relative bg-white backdrop-blur-md transition-all duration-300 rounded-2xl p-4 flex flex-col md:flex-row gap-6 items-center">
-      
       {/* 1. SECCIÓN IMAGEN */}
       <div className="relative flex-shrink-0 w-32 h-32 md:w-40 md:h-40 bg-white rounded-xl overflow-hidden shadow-inner group-hover:scale-105 transition-transform duration-500">
         {imgLoading ? (
           <div className="w-full h-full bg-slate-800 animate-pulse" />
         ) : imgUrl ? (
-          <img src={imgUrl} alt={producto.descripcion} className="w-full h-full object-contain p-2" />
+          <img
+            src={imgUrl}
+            alt={producto.descripcion}
+            className="w-full h-full object-contain p-2"
+          />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center bg-slate-100 text-slate-400">
             <Package className="w-8 h-8 opacity-20" />
-            <span className="text-[10px] font-bold uppercase mt-1">Sin Imagen</span>
+            <span className="text-[10px] font-bold uppercase mt-1">
+              Sin Imagen
+            </span>
           </div>
         )}
         {/* Badge de Laboratorio o Categoría */}
@@ -74,7 +85,7 @@ export const AdminProductItem: React.FC<Props> = ({
       <div className="flex-1 min-w-0 w-full">
         <div className="flex items-start justify-between gap-4 mb-2">
           <div>
-            <h3 className="text-2xl font-bold leading-tight truncate group-hover:text-blue-800 transition-colors">
+            <h3 className="text-2xl text-black inter-400">
               {producto.descripcion}
             </h3>
             <div className="flex items-center gap-3 mt-1 text-slate-400 text-sm">
@@ -86,28 +97,45 @@ export const AdminProductItem: React.FC<Props> = ({
               </span>
             </div>
           </div>
-
         </div>
 
         {/* 3. GRID DE DESCUENTOS Y PRECIOS */}
         <div className="flex flex-wrap items-end justify-between gap-4 mt-4">
-          
           <div className="space-y-3">
             {/* Badges de Descuentos */}
             <div className="flex flex-wrap gap-1.5">
-              <span className="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-blue-900 text-md font-bold">DL {producto.descuento1}%</span>
-              <span className="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-blue-900 text-md font-bold">DE {producto.descuento2}%</span>
-              <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-900 text-md font-bold">DC {descuentoCliente1}%</span>
-              <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-900 text-md font-bold">PP {descuentoCliente2}%</span>
+              <span className="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-blue-900 text-md font-bold">
+                DL {producto.descuento1}%
+              </span>
+              <span className="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-blue-900 text-md font-bold">
+                DE {producto.descuento2}%
+              </span>
+              <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-900 text-md font-bold">
+                DC {descuentoCliente1}%
+              </span>
+              <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-900 text-md font-bold">
+                PP {descuentoCliente2}%
+              </span>
             </div>
-            
+
             <div className="flex items-baseline gap-4">
-              <div className="flex flex-col">
-                <span className="text-sm text-slate-500 uppercase font-bold">Lista</span>
-                <span className="text-slate-400 line-through text-2xl">${Number(producto.precio).toFixed(2)}</span>
-              </div>
+              {(producto.descuento1 > 0 ||
+                producto.descuento2 > 0 ||
+                descuentoCliente1 > 0 ||
+                descuentoCliente2 > 0) && (
+                <div className="flex flex-col bg-slate-50 p-3 rounded-xl border-l-4 border-[#04581C]/30">
+                  <span className="text-[10px] text-[#091D52] uppercase font-black tracking-wider">
+                    Precio de Lista
+                  </span>
+                  <span className="text-slate-400 line-through text-xl font-medium">
+                    ${Number(producto.precio).toFixed(2)}
+                  </span>
+                </div>
+              )}
               <div className="flex flex-col border-l border-slate-800 pl-4">
-                <span className="text-sm text-indigo-400 uppercase font-bold tracking-widest">Precio Neto</span>
+                <span className="text-sm text-indigo-400 uppercase font-bold tracking-widest">
+                  Precio Neto
+                </span>
                 <span className="text-3xl font-black tracking-tight">
                   ${precioNeto.toFixed(2)}
                 </span>
