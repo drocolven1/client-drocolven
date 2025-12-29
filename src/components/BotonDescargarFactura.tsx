@@ -5,6 +5,7 @@ import { Button } from "@heroui/button";
 interface Props {
   numeroFactura?: string | null;
 }
+const API_BASE_URL = import.meta.env.VITE_API_CLOUD ?? "http://localhost:5000";
 
 export default function BotonDescargarFactura({ numeroFactura }: Props) {
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,7 @@ export default function BotonDescargarFactura({ numeroFactura }: Props) {
     
     try {
       // 1. Pedir URL firmada al backend
-      const response = await fetch(`http://localhost:5000/facturas/ver/${numeroFactura}.pdf`);
+      const response = await fetch(`${API_BASE_URL}/facturas/ver/${numeroFactura}.pdf`);
       
       if (!response.ok) throw new Error("No encontrado");
 
