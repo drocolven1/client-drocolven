@@ -5,7 +5,7 @@ import { Button } from "@heroui/button";
 interface Props {
   numeroFactura?: string | null;
 }
-const API_BASE_URL = import.meta.env.VITE_API_CLOUD ?? "http://localhost:5000";
+const API_BASE_URL = import.meta.env.VITE_CLOUD_IMG ?? "http://localhost:5000";
 
 export default function BotonDescargarFactura({ numeroFactura }: Props) {
   const [loading, setLoading] = useState(false);
