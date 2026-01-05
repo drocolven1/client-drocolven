@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import ComingSoon from "./pages/ComingSoon";
 import { InfoPedidoPage } from "./pages/InfoPedidosPage";
 import InfoClientePage from "./pages/InfoClientPage";
+import PagosPage from "./pages/PagosPage";
 
 function App() {
   return (
@@ -14,10 +15,10 @@ function App() {
       <Route element={<LoginPage />} path="/login" />
       <Route element={<ProtectedRoute />}>
         <Route element={<InfoClientePage />} path="/home" />
+        <Route element={<PagosPage />} path="/pagos" />
         <Route element={<InfoPedidoPage />} path="/mispedidos" />
         <Route element={<CarritoClientePage />} path="/catalogo" />
         <Route element={<ComingSoon />} path="/reclamos" />
-        <Route element={<ComingSoon />} path="/pagos" />
         <Route element={<ComingSoon />} path="/cuentas" />
         <Route element={<ComingSoon />} path="/facturas" />
         <Route element={<ComingSoon />} path="/informacion" />

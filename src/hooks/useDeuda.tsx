@@ -4,6 +4,7 @@ interface PedidoDeuda {
   _id: string;
   total: number;
   fecha: string;
+  numero_fac_a2: string;
   id_cliente: string;
 }
 
