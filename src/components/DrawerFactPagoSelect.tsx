@@ -19,7 +19,7 @@ export default function DrawerFactPagoSelect({ handleSeleccionFacturas }: { hand
                             </DrawerBody>
                             <DrawerFooter>
                                 <Button color="primary" onPress={onClose}>
-                                    Action
+                                    Seleccionar
                                 </Button>
                             </DrawerFooter>
                         </>

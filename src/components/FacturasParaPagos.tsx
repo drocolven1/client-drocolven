@@ -1,5 +1,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import { usePedidosDeuda } from "@/hooks/useDeuda";
+import { useTasa } from "@/hooks/useTasa";
 import { Card, CardBody } from "@heroui/card";
 import { Checkbox } from "@heroui/checkbox";
 import { Chip } from "@heroui/chip";
@@ -31,6 +32,7 @@ interface FacturasParaPagosProps {
 }
 
 export default function FacturasParaPagos({ onSelectionChange }: FacturasParaPagosProps) {
+    const { tasa } = useTasa()
     const { user } = useAuth();
     const {
         pedidos: pedidosPendientes,
@@ -94,10 +96,6 @@ export default function FacturasParaPagos({ onSelectionChange }: FacturasParaPag
         onSelectionChange(resumen);
     }, [selectedIds, pedidosFiltrados]); // Escuchamos cambios en la lista filtrada
 
-    // Formateador de moneda
-    const formatCurrency = (amount: number) =>
-        new Intl.NumberFormat("es-VE", { style: "currency", currency: "USD" }).format(amount);
-
     if (loadingPendiente) {
         return (
             <div className="space-y-3">
@@ -158,7 +156,7 @@ export default function FacturasParaPagos({ onSelectionChange }: FacturasParaPag
                                 <div className="flex items-center gap-2 mb-1">
                                     <FileText className={`w-4 h-4 ${isSelected ? "text-primary-400" : "text-slate-400"}`} />
                                     <p className={`font-bold text-sm ${isSelected ? "text-white" : "text-slate-200"}`}>
-                                        Factura #{pedido.numero_fac_a2}
+                                        Fac #{pedido.numero_fac_a2}
                                     </p>
                                 </div>
                                 <p className="text-xs text-slate-500">
@@ -170,7 +168,10 @@ export default function FacturasParaPagos({ onSelectionChange }: FacturasParaPag
                         <div className="text-right">
                             <p className="text-xs text-slate-400 mb-1">Monto</p>
                             <p className={`font-mono font-bold ${isSelected ? "text-primary-400" : "text-white"}`}>
-                                {formatCurrency(Number(pedido.total))}
+                                Bs {(Number(pedido.total) * (tasa?.tasa || 0)).toFixed(4)}
+                            </p>
+                            <p className={`font-mono font-bold ${isSelected ? "text-primary-400" : "text-white"}`}>
+                                $ {(Number(pedido.total)).toFixed(4)}
                             </p>
                         </div>
                     </CardBody>

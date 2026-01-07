@@ -8,6 +8,7 @@ import { Smartphone, CreditCard, Copy, Info, CheckCircle2, CopyPlus } from "luci
 import { useClienteStore } from "@/components/carritoCliente/store/cliente.storage";
 import DrawerFactPagoSelect from "./DrawerFactPagoSelect";
 import { ResumenSeleccion } from "./FacturasParaPagos";
+import { useTasa } from "@/hooks/useTasa";
 
 interface BancoReceptor {
   _id: string;
@@ -28,7 +29,7 @@ export default function FormularioPago() {
   const [fetchingBancos, setFetchingBancos] = useState<boolean>(true);
   const clienteSeleccionado = useClienteStore((s) => s.clienteSeleccionado);
   const [datosFacturas, setDatosFacturas] = useState<ResumenSeleccion | null>(null);
-
+  const { tasa } = useTasa();
   const handleSeleccionFacturas = (resumen: ResumenSeleccion) => {
     setDatosFacturas(resumen);
   };
@@ -310,8 +311,8 @@ export default function FormularioPago() {
                   <Input
                     name="monto_pagado"
                     isRequired
-                    placeholder="numero de referencia completo"
-                    description="Copia desde tu comprobante bancario"
+                    placeholder="monto exacto pagado"
+                    description="Monto exacto pagado segun comprobante"
                     variant="bordered"
                     color="warning"
                     classNames={{
@@ -368,11 +369,15 @@ export default function FormularioPago() {
                   <div className="flex items-center justify-center gap-4 text-xl w-full">
                     <DrawerFactPagoSelect handleSeleccionFacturas={handleSeleccionFacturas} />
                     {datosFacturas && (
-                      <p
-                        className="w-full justify-center font-bold text-white"
-                      >
-                        ${Number(datosFacturas.totalPagar).toLocaleString()}
-                      </p>
+                      <div className="text-right">
+                        <p className="text-xs text-slate-400 mb-1">Monto</p>
+                        <p className="font-mono font-bold text-white">
+                          Bs {(Number(datosFacturas.totalPagar) * (tasa?.tasa || 0)).toFixed(4)}
+                        </p>
+                        <p className="font-mono font-bold text-white">
+                          $ {(Number(datosFacturas.totalPagar)).toFixed(4)}
+                        </p>
+                      </div>
                     )}
                   </div>
                 </div>
