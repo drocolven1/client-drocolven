@@ -42,6 +42,10 @@ export default function FacturasParaPagos({ onSelectionChange }: FacturasParaPag
         baseURL,
     });
 
+    const pedidosFiltrados = pedidosPendientes.filter(
+        (p: Pedido) => p.numero_fac_a2 && p.numero_fac_a2.trim() !== ""
+    );
+
     // Estado para guardar los IDs de las facturas seleccionadas
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
@@ -60,28 +64,26 @@ export default function FacturasParaPagos({ onSelectionChange }: FacturasParaPag
 
     // Función para seleccionar/deseleccionar todas
     const toggleAll = () => {
-        if (selectedIds.size === pedidosPendientes.length) {
+        // Usamos pedidosFiltrados en lugar de pedidosPendientes
+        if (selectedIds.size === pedidosFiltrados.length) {
             setSelectedIds(new Set());
         } else {
-            const allIds = new Set(pedidosPendientes.map((p: Pedido) => p._id));
+            const allIds = new Set(pedidosFiltrados.map((p: Pedido) => p._id));
             setSelectedIds(allIds);
         }
     };
-
     // Efecto: Cada vez que cambia la selección, calculamos y notificamos al padre
     useEffect(() => {
-        // Filtramos los objetos completos basados en los IDs seleccionados
-        const facturasSeleccionadas = pedidosPendientes.filter((p: Pedido) =>
+        // Usamos pedidosFiltrados para el resumen
+        const facturasSeleccionadas = pedidosFiltrados.filter((p: Pedido) =>
             selectedIds.has(p._id)
         );
 
-        // Calculamos el total
         const totalPagar = facturasSeleccionadas.reduce(
             (acc: number, curr: Pedido) => acc + Number(curr.total),
             0
         );
 
-        // Creamos el objeto resumen
         const resumen: ResumenSeleccion = {
             ids: Array.from(selectedIds),
             facturas: facturasSeleccionadas,
@@ -89,10 +91,8 @@ export default function FacturasParaPagos({ onSelectionChange }: FacturasParaPag
             cantidad: facturasSeleccionadas.length
         };
 
-        // Enviamos al padre
         onSelectionChange(resumen);
-
-    }, [selectedIds, pedidosPendientes]); // Se ejecuta cuando cambia la selección o la data
+    }, [selectedIds, pedidosFiltrados]); // Escuchamos cambios en la lista filtrada
 
     // Formateador de moneda
     const formatCurrency = (amount: number) =>
@@ -112,12 +112,11 @@ export default function FacturasParaPagos({ onSelectionChange }: FacturasParaPag
         return <div className="text-red-400 p-4 border border-red-500/20 rounded-xl">Error cargando facturas</div>;
     }
 
-    if (pedidosPendientes.length === 0) {
-        return <div className="text-slate-400 text-center p-8">No tienes facturas pendientes.</div>;
+    if (pedidosFiltrados.length === 0) {
+        return <div className="text-slate-400 text-center p-8">No tienes facturas válidas con número asignado.</div>;
     }
 
-    const isAllSelected = pedidosPendientes.length > 0 && selectedIds.size === pedidosPendientes.length;
-
+    const isAllSelected = pedidosFiltrados.length > 0 && selectedIds.size === pedidosFiltrados.length;
 
     return <div className="space-y-4">
         {/* Lista de Facturas */}
@@ -129,13 +128,13 @@ export default function FacturasParaPagos({ onSelectionChange }: FacturasParaPag
                     color="success"
                     classNames={{ label: "text-slate-300 text-sm" }}
                 >
-                    Seleccionar Todo ({pedidosPendientes.length})
+                    Seleccionar Todo ({pedidosFiltrados.length})
                 </Checkbox>
                 <Chip size="sm" variant="flat" color="success">
                     {selectedIds.size} Seleccionadas
                 </Chip>
             </div>
-            {pedidosPendientes.map((pedido: Pedido) => {
+            {pedidosFiltrados.map((pedido: Pedido) => {
                 const isSelected = selectedIds.has(pedido._id);
                 return <Card
                     key={pedido._id}
