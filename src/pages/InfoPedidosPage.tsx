@@ -21,11 +21,11 @@ import {
   Search,
 } from "lucide-react";
 
-import { Pedido } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 import PedidoCard from "@/components/PedidoCard";
 import ClientLayout from "@/layouts/Client";
 import { Button } from "@heroui/button";
+import { Pedido } from "../types";
 
 // Definición de los estados disponibles
 const ESTADOS_PEDIDO = [

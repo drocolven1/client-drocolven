@@ -1,4 +1,4 @@
-import React, { useRef} from "react";
+import React, { useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import {
@@ -16,6 +16,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import { Button } from "@heroui/button";
+import { useTasa } from "@/hooks/useTasa";
 
 interface NavLink {
   label: string;
@@ -64,7 +65,7 @@ const NavbarV: React.FC = () => {
   const [showLabels, setShowLabels] = React.useState(true);
   const labelsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const navRef = useRef<HTMLElement | null>(null);
-
+  const { tasa } = useTasa();
   const handleNav = (href: string) => {
     if (location.pathname !== href) {
       setLoading(true);
@@ -124,7 +125,16 @@ const NavbarV: React.FC = () => {
           </button>
         ))}
       </div>
-      <div className="mt-auto flex flex-col items-center w-full">
+      <div className="mt-auto flex flex-col items-center w-full gap-2">
+        {tasa && (
+          <div className="flex flex-col items-center">
+            <p className="text-slate-400 text-xl">
+              Tasa (BCV)
+            </p>          <p className="text-slate-400 text-xl">
+              {(tasa.tasa.toString())} Bs.
+            </p>
+          </div>
+        )}
         <Button
           variant="ghost"
           className="flex flex-row items-center gap-1 text-white hover:text-red-500 px-2 py-2 text-xs md:text-sm font-medium w-full justify-start"
