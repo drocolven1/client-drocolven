@@ -8,6 +8,8 @@ import ComingSoon from "./pages/ComingSoon";
 import { InfoPedidoPage } from "./pages/InfoPedidosPage";
 import InfoClientePage from "./pages/InfoClientPage";
 import PagosPage from "./pages/PagosPage";
+import ReclamosPage from "./pages/ReclamosPage";
+import { SupportForm } from "./pages/Soporte";
 
 function App() {
   return (
@@ -18,11 +20,11 @@ function App() {
         <Route element={<PagosPage />} path="/pagos" />
         <Route element={<InfoPedidoPage />} path="/mispedidos" />
         <Route element={<CarritoClientePage />} path="/catalogo" />
-        <Route element={<ComingSoon />} path="/reclamos" />
+        <Route element={<ReclamosPage />} path="/reclamos" />
         <Route element={<ComingSoon />} path="/cuentas" />
         <Route element={<ComingSoon />} path="/facturas" />
         <Route element={<ComingSoon />} path="/informacion" />
-        <Route element={<ComingSoon />} path="/soporte" />
+        <Route element={<SupportForm />} path="/soporte" />
         <Route element={<LoginPage />} path="/*" />
       </Route>
     </Routes>

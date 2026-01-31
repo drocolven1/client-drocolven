@@ -27,7 +27,7 @@ const PedidoCard: React.FC<PedidoCardProps> = ({
         <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-2">
           {/* Added a subtle background for the ID to make it pop slightly */}
           Factura #
-          <span className="font-extrabold text-primary-700 bg-primary-50/50 px-2 py-0.5 rounded-md tracking-wide">
+          <span className="font-extrabold text-primary-500 px-2 py-0.5 rounded-md tracking-wide">
             {pedido.numero_fac_a2
               ? pedido.numero_fac_a2.substring(0, 8)
               : "no registrado"}

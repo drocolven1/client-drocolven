@@ -7,11 +7,11 @@ import "@/styles/globals.css";
 import { AuthProvider } from "./hooks/useAuth.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-    <AuthProvider>
-      <BrowserRouter>
-        <Provider>
+  <AuthProvider>
+    <BrowserRouter>
+      <Provider>
           <App />
-        </Provider>
-      </BrowserRouter>
-    </AuthProvider>
+      </Provider>
+    </BrowserRouter>
+  </AuthProvider>
 );

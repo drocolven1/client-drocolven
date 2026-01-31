@@ -85,9 +85,16 @@ const FiltroPedidos = ({
             placeholder="Selecciona un estado"
             selectedKeys={value}
             onSelectionChange={setValue}
+            classNames={{
+              trigger: "min-h-[44px] bg-gray-800/80 border border-gray-600/50 rounded-2xl backdrop-blur-xl data-[hover=true]:bg-gray-700/80 data-[open=true]:bg-gray-700/90 shadow-lg transition-all duration-200 hover:shadow-xl hover:border-primary-500/70 focus:ring-2 focus:ring-primary-500/50",
+              listbox: "bg-gray-800/95 border border-gray-600/50 rounded-2xl backdrop-blur-xl shadow-2xl max-h-60 overflow-auto",
+              popoverContent: "p-2",
+            }}
           >
             {ESTADOS_PEDIDO.map((estado) => (
-              <SelectItem key={estado.key}>{estado.label}</SelectItem>
+              <SelectItem key={estado.key}
+                classNames={{ base: "bg-blue-500 ",wrapper:"bg-black", shortcut:"bg-red-500"}}
+              >{estado.label}</SelectItem>
             ))}
           </Select>
         </div>

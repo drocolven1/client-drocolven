@@ -8,7 +8,6 @@ import { useClienteStore } from "@/components/carritoCliente/store/cliente.stora
 import { ResumenCarrito } from "@/components/carritoCliente/ui/ResumenCarrito";
 import { ProductList } from "@/components/carritoCliente/ui/ProductList";
 import { Buscador } from "@/components/carritoCliente/ui/Buscador";
-
 import {
   Modal,
   ModalContent,
@@ -131,9 +130,10 @@ export function CarritoClientePage() {
           onOpenChange={onOpenChange}
           backdrop="blur"
           size="5xl"
+          className="bg-white"
         >
           <ModalContent className="h-[85%]">
-            <ModalHeader className="justify-center">
+            <ModalHeader className="justify-center text-black">
               <p>Resumen del Carrito</p>
             </ModalHeader>
             <ModalBody className="overflow-y-auto">
