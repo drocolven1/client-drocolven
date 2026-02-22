@@ -4,15 +4,15 @@ import { useAuth } from "../hooks/useAuth";
 import {
   Apple,
   Cable,
-  CalendarCheck,
+  // CalendarCheck,
   ClosedCaption,
-  CreditCard,
+  // CreditCard,
   Home,
-  Info,
+  // Info,
   LogOut,
   MenuIcon,
   MessageSquareWarning,
-  ReceiptText,
+  // ReceiptText,
   ShoppingCart,
 } from "lucide-react";
 import { Button } from "@heroui/button";
@@ -38,22 +38,22 @@ const navLinks: NavLink[] = [
     href: "/reclamos",
     icon: <MessageSquareWarning className="w-5 h-5" />,
   },
-  { label: "Pagos", href: "/pagos", icon: <CreditCard className="w-5 h-5" /> },
-  {
-    label: "Cuentas x Pagar",
-    href: "/cuentas",
-    icon: <CalendarCheck className="w-5 h-5" />,
-  },
-  {
-    label: "Facturas",
-    href: "/facturas",
-    icon: <ReceiptText className="w-5 h-5" />,
-  },
-  {
-    label: "Información",
-    href: "/informacion",
-    icon: <Info className="w-5 h-5" />,
-  },
+  // { label: "Pagos", href: "/pagos", icon: <CreditCard className="w-5 h-5" /> },
+  // {
+  //   label: "Cuentas x Pagar",
+  //   href: "/cuentas",
+  //   icon: <CalendarCheck className="w-5 h-5" />,
+  // },
+  // {
+  //   label: "Facturas",
+  //   href: "/facturas",
+  //   icon: <ReceiptText className="w-5 h-5" />,
+  // },
+  // {
+  //   label: "Información",
+  //   href: "/informacion",
+  //   icon: <Info className="w-5 h-5" />,
+  // },
   { label: "Soporte", href: "/soporte", icon: <Cable className="w-5 h-5" /> },
 ];
 
