@@ -248,7 +248,7 @@ const LoginPage = () => {
               onPress={() => {
                 // Redirige y hace scroll automático
                 window.location.href =
-                  "https://landingpage-drocolven.vercel.app/#contacto";
+                  "https://www.drocolven.com/#contacto";
                 // O con scroll suave después de cargar:
                 // window.location.href = '/contacto#formulario-contacto';
               }}
