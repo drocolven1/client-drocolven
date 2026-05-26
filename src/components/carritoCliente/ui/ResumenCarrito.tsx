@@ -336,13 +336,13 @@ export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
     setCreditoError(null);
 
     try {
-      // 1. VERIFICAR CRÉDITO (una sola vez)
-      console.log("🔍 Verificando crédito...");
-      const creditoData = await verificarCredito(cliente.rif);
-      if (!creditoData) {
-        setIsProcessing(false);
-        return;
-      }
+      // 1. VERIFICAR CRÉDITO (deshabilitado)
+      // console.log("🔍 Verificando crédito...");
+      // const creditoData = await verificarCredito(cliente.rif);
+      // if (!creditoData) {
+      //   setIsProcessing(false);
+      //   return;
+      // }
 
       // 2. CREAR PEDIDO
       const fechaActual = getCurrentDateTime();
@@ -369,16 +369,15 @@ export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
       const pedido = await res.json();
       if (!res.ok) throw new Error(pedido.message || "Error creando pedido");
 
-      // 3. ACTUALIZAR CRÉDITO (pasando datos directamente)
-      console.log("💳 Actualizando crédito...");
-      const creditoActualizado = await actualizarCreditoCliente(
-        cliente.rif,
-        creditoData
-      );
-
-      if (!creditoActualizado) {
-        console.warn("⚠️ Pedido OK pero crédito NO actualizado");
-      }
+      // 3. ACTUALIZAR CRÉDITO (deshabilitado)
+      // console.log("💳 Actualizando crédito...");
+      // const creditoActualizado = await actualizarCreditoCliente(
+      //   cliente.rif,
+      //   creditoData
+      // );
+      // if (!creditoActualizado) {
+      //   console.warn("⚠️ Pedido OK pero crédito NO actualizado");
+      // }
 
       alert("✅ Pedido registrado correctamente");
       onTotalizar?.();
@@ -580,8 +579,8 @@ export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
             </div>
 
             <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-              {/* 🆕 NUEVA SECCIÓN: VERIFICACIÓN DE CRÉDITO */}
-              {creditoError && (
+              {/* VERIFICACIÓN DE CRÉDITO (deshabilitada) */}
+              {/* {creditoError && (
                 <div className="p-4 bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-200 rounded-2xl">
                   <div className="flex items-start gap-3">
                     <AlertTriangle className="w-6 h-6 text-red-500 mt-0.5 flex-shrink-0" />
@@ -593,7 +592,7 @@ export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
 
               {/* Observación (original) */}
               <div>
@@ -616,7 +615,7 @@ export const ResumenCarrito: React.FC<Props> = ({ cliente, onTotalizar }) => {
               <div className="flex flex-col sm:flex-row-reverse gap-3 pt-2 sm:pt-4">
                 <Button
                   onPress={handleConfirmarPedido}
-                  disabled={isProcessing || !!creditoError}
+                  disabled={isProcessing}
                   className="w-full sm:w-auto ... disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-h-[44px]"
                 >
                   {isProcessing ? (
